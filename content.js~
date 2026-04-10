@@ -1,0 +1,128 @@
+let hanzis = [];
+
+// Load Hanzis from storage
+chrome.storage.local.get('hanzis', (data) => {
+    hanzis = data.hanzis || [];
+});
+
+// Helper function to reliably get the current Hanzi
+const getCurrentHanzi = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('query') || urlParams.get('q');
+    if (query) return query; // URL Params automatically decode %E5%A4%A9 back to Hanzi
+    
+    return document.title.split(' ')[0];
+};
+
+// Function to navigate to the next Hanzi
+const navigateToNextHanzi = () => {
+    if (hanzis.length === 0) return alert("Please save some Hanzis in the extension popup first.");
+    const currentHanzi = getCurrentHanzi();
+    const currentIndex = hanzis.indexOf(currentHanzi);
+
+    if (currentIndex === -1) {
+        window.location.href = `https://hanja.dict.naver.com/search?query=${hanzis[0]}`;
+    } else if (currentIndex < hanzis.length - 1) {
+        window.location.href = `https://hanja.dict.naver.com/search?query=${hanzis[currentIndex + 1]}`;
+    } else {
+        alert("No more next Hanzi.");
+    }
+};
+
+// Function to navigate to the previous Hanzi
+const navigateToPreviousHanzi = () => {
+    if (hanzis.length === 0) return alert("Please save some Hanzis in the extension popup first.");
+    const currentHanzi = getCurrentHanzi();
+    const currentIndex = hanzis.indexOf(currentHanzi);
+
+    if (currentIndex === -1) {
+        window.location.href = `https://hanja.dict.naver.com/search?query=${hanzis[hanzis.length - 1]}`;
+    } else if (currentIndex > 0) {
+        window.location.href = `https://hanja.dict.naver.com/search?query=${hanzis[currentIndex - 1]}`;
+    } else {
+        alert("No more previous Hanzi.");
+    }
+};
+
+// Function to reset and jump to the first Hanzi
+const resetHanziIndex = () => {
+    if (hanzis.length === 0) return alert("Please save some Hanzis in the extension popup first.");
+    window.location.href = `https://hanja.dict.naver.com/search?query=${hanzis[0]}`;
+};
+
+// Add event listener for keyboard shortcuts
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' && event.ctrlKey) {
+        event.preventDefault();
+        navigateToNextHanzi();
+    }
+    if (event.key === 'ArrowLeft' && event.ctrlKey) {
+        event.preventDefault();
+        navigateToPreviousHanzi();
+    }
+    if (event.key === 'ArrowDown' && event.ctrlKey) {
+        event.preventDefault();
+        resetHanziIndex();
+    }
+});
+
+// Page Load Logic (Auto-clicker & Scroller)
+const initPageLogic = () => {
+    const currentUrl = window.location.href;
+    console.log("Naver Hanzi Extension: Initializing page logic on", currentUrl);
+    
+    // SCENARIO 1: Search Results Page
+    if (currentUrl.includes('/search') && (currentUrl.includes('query='))) {
+        const currentHanzi = getCurrentHanzi();
+        console.log(`Naver Hanzi Extension: Looking for links for ${currentHanzi}`);
+        
+        if (currentHanzi) {
+const tryOpenDescription = () => {
+    // 1. Use the exact CSS pattern from the Naver HTML structure
+    const links = Array.from(document.querySelectorAll('.hanja_word a.hanja_link'));
+    
+    if (links.length > 0) {
+        console.log(`Naver Hanzi Extension: Found ${links.length} entry links via DOM classes.`);
+        
+        // 2. Grab the second result link (index 1) as you requested, or fallback to first (index 0)
+        const targetLink = links.length >= 2 ? links[1].href : links[0].href;
+        
+        console.log("Naver Hanzi Extension: Navigating to ->", targetLink);
+        window.location.href = targetLink; 
+        return true;
+    }
+    return false; // Return false if React hasn't rendered the DOM elements yet
+};
+
+            // Poll every 150ms for up to 10 seconds (React can be slow)
+            let attempts = 0;
+            const searchInterval = setInterval(() => {
+                attempts++;
+                if (tryOpenDescription()) {
+                    clearInterval(searchInterval);
+                } else if (attempts > 60) { 
+                    console.log("Naver Hanzi Extension: Timed out waiting for search results to render.");
+                    clearInterval(searchInterval);
+                }
+            }, 150);
+        }
+    } 
+    // SCENARIO 2: Description Page
+    else {
+        setTimeout(() => {
+            const element = document.evaluate("//h2[contains(text(), '한자 구성원리')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+            if (element) {
+                console.log("Naver Hanzi Extension: Scrolling to 한자 구성원리");
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 1000); // Slightly longer delay to ensure the page is fully laid out
+    }
+};
+
+// FIX: Check if DOM is already loaded before adding the listener
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPageLogic);
+} else {
+    // If 'document_idle' already passed, execute immediately
+    initPageLogic(); 
+}

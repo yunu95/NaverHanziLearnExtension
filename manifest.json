@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "Naver Hanzi Redirect",
+    "version": "1.0",
+    "description": "Redirects to Naver Hanzi Dictionary.",
+    "permissions": [
+        "storage"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icon16.png",
+            "48": "icon48.png",
+            "128": "icon128.png"
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://hanja.dict.naver.com/*"],
+            "js": ["content.js"]
+        }
+    ]
+}

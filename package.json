@@ -1,0 +1,13 @@
+{
+  "name": "naver-hanja-study-extension",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smoke-test scaffold for the Naver Hanja study extension.",
+  "scripts": {
+    "test:smoke": "playwright test",
+    "test:smoke:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.0"
+  }
+}
