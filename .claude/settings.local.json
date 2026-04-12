@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c \"where npm\")",
+      "Bash(cmd /c \"where node\")",
+      "Bash(powershell.exe -Command ':*)"
+    ]
+  }
+}
