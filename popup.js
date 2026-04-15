@@ -48,16 +48,16 @@ saveButton.addEventListener("click", () => {
 
     chrome.storage.local.set({ hanzis: hanziList }, () => {
         textarea.value = hanziList.join(", ");
-        alert("Hanzis saved!");
+        alert("한자가 저장되었습니다!");
     });
 });
 
 const renderLastHanzi = () => {
     chrome.storage.local.get({ lastHanzi: "", lastHanziUrl: "" }, (data) => {
         if (data.lastHanzi) {
-            lastHanziInfo.textContent = `Last: ${data.lastHanzi}`;
+            lastHanziInfo.textContent = `마지막 학습: ${data.lastHanzi}`;
         } else {
-            lastHanziInfo.textContent = "No hanzi visited yet.";
+            lastHanziInfo.textContent = "아직 방문한 한자가 없습니다.";
         }
     });
 };
@@ -65,7 +65,7 @@ const renderLastHanzi = () => {
 goToLastHanziButton.addEventListener("click", () => {
     chrome.storage.local.get({ lastHanzi: "", lastHanziUrl: "" }, (data) => {
         if (!data.lastHanziUrl && !data.lastHanzi) {
-            alert("No hanzi visited yet. Browse a hanzi description page first.");
+            alert("아직 방문한 한자가 없습니다. 먼저 한자 상세 페이지를 방문하세요.");
             return;
         }
         const url = data.lastHanziUrl || `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(data.lastHanzi)}`;

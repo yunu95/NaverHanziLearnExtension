@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Naver Hanzi Redirect</title>
+    <title>네이버 한자 사전</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,6 +29,16 @@
             background: #fffdf7;
         }
 
+        .textarea-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #7a1f1f;
+            margin-bottom: 6px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         button {
             width: 100%;
             padding: 8px 12px;
@@ -36,11 +46,31 @@
             background: #d62828;
             color: #ffffff;
             font-weight: bold;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #b71c1c;
+        }
+
+        button:active {
+            background: #7a1f1f;
+            transform: scale(0.97);
         }
 
         #goToLastHanzi {
             margin-top: 8px;
             background: #7a1f1f;
+        }
+
+        #goToLastHanzi:hover {
+            background: #5a1515;
+        }
+
+        #goToLastHanzi:active {
+            background: #3b0d0d;
+            transform: scale(0.97);
         }
 
         #lastHanziInfo {
@@ -51,24 +81,15 @@
             min-height: 18px;
         }
 
-        .reload-marker {
-            margin: 0 0 12px;
-            padding: 8px 10px;
-            background: #d62828;
-            color: #ffffff;
-            font-weight: bold;
-            text-align: center;
-            letter-spacing: 0.08em;
-        }
     </style>
 </head>
 <body>
-    <h1>Naver Hanzi Dictionary</h1>
-    <div class="reload-marker">RELOAD CHECK VERSION</div>
-    <textarea id="hanziList" rows="10" cols="30" placeholder="Enter Hanzis separated by commas"></textarea>
-    <button id="save">Save Hanzis</button>
+    <h1>네이버 한자 사전</h1>
+    <span class="textarea-label">학습할 한자 목록</span>
+    <textarea id="hanziList" rows="10" cols="30" placeholder="한자를 쉼표로 구분하여 입력하세요"></textarea>
+    <button id="save">한자 저장</button>
     <div id="lastHanziInfo"></div>
-    <button id="goToLastHanzi">Go to Last Hanzi</button>
+    <button id="goToLastHanzi">마지막 학습 한자로 이동</button>
     <script src="popup.js"></script>
 </body>
 </html>
