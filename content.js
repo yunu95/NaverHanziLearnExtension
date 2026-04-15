@@ -533,7 +533,12 @@ const renderPanel = () => {
     if (!currentHanzi && !sound && !meaning) return;
 
     if (currentHanzi) {
-        chrome.storage.local.set({ lastHanzi: currentHanzi, lastHanziUrl: window.location.href });
+        chrome.storage.local.get({ activePresetId: "default", lastHanziMap: {} }, (data) => {
+            const presetId = data.activePresetId || "default";
+            const map = { ...data.lastHanziMap };
+            map[presetId] = { hanzi: currentHanzi, url: window.location.href };
+            chrome.storage.local.set({ lastHanziMap: map });
+        });
     }
 
     let panel = document.getElementById(PANEL_ID);

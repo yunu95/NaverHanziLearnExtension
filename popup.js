@@ -1,7 +1,157 @@
 const textarea = document.getElementById("hanziList");
-const saveButton = document.getElementById("save");
 const goToLastHanziButton = document.getElementById("goToLastHanzi");
 const lastHanziInfo = document.getElementById("lastHanziInfo");
+
+const PRESETS_KEY = "presets";
+
+let activePresetId = null;
+
+const loadPresets = (callback) => {
+    chrome.storage.local.get({ [PRESETS_KEY]: [] }, (data) => callback(data[PRESETS_KEY]));
+};
+
+const savePresets = (presets, callback) => {
+    chrome.storage.local.set({ [PRESETS_KEY]: presets }, callback);
+};
+
+const getHanziSignature = (hanzis) => [...hanzis].sort().join(",");
+
+const syncActivePreset = (presets) => {
+    const currentSig = getHanziSignature(parseHanziList(textarea.value));
+    const defaultSig = getHanziSignature(parseHanziList(DEFAULT_HANZIS));
+    if (currentSig === defaultSig) {
+        activePresetId = "default";
+        return;
+    }
+    const matched = presets.find((p) => getHanziSignature(p.hanzis) === currentSig);
+    if (matched) activePresetId = matched.id;
+    // no match — keep whatever was already selected
+    if (!activePresetId) activePresetId = "default";
+};
+
+const applyPreset = (hanzis, presetId) => {
+    chrome.storage.local.set({ hanzis, activePresetId: presetId });
+};
+
+const renderPresetBar = () => {
+    const bar = document.getElementById("presetBar");
+    loadPresets((presets) => {
+        textarea.disabled = activePresetId === "default";
+        bar.innerHTML = "";
+
+        const defaultBtn = document.createElement("button");
+        defaultBtn.className = "preset-btn preset-default" + (activePresetId === "default" ? " preset-active" : "");
+        defaultBtn.textContent = "기본";
+        defaultBtn.title = "기본 한자 목록 불러오기";
+        defaultBtn.addEventListener("click", () => {
+            const hanzis = parseHanziList(DEFAULT_HANZIS);
+            textarea.value = hanzis.join(", ");
+            activePresetId = "default";
+            applyPreset(hanzis, "default");
+            renderPresetBar();
+            renderLastHanzi();
+        });
+        bar.appendChild(defaultBtn);
+
+        presets.forEach((preset) => {
+            const wrapper = document.createElement("span");
+            wrapper.className = "preset-item" + (activePresetId === preset.id ? " preset-active" : "");
+
+            const btn = document.createElement("button");
+            btn.className = "preset-btn preset-name";
+            btn.textContent = preset.name;
+            btn.title = `${preset.hanzis.length}개 한자`;
+            btn.addEventListener("click", () => {
+                textarea.disabled = false;
+                textarea.value = preset.hanzis.join(", ");
+                activePresetId = preset.id;
+                applyPreset(preset.hanzis, preset.id);
+                renderPresetBar();
+                renderLastHanzi();
+            });
+
+            const rename = document.createElement("button");
+            rename.className = "preset-btn preset-rename";
+            rename.textContent = "✏";
+            rename.title = "이름 바꾸기";
+            rename.addEventListener("click", () => {
+                const newName = prompt("새 이름을 입력하세요:", preset.name);
+                if (!newName || !newName.trim()) return;
+                loadPresets((all) => {
+                    savePresets(
+                        all.map((p) => (p.id === preset.id ? { ...p, name: newName.trim() } : p)),
+                        renderPresetBar
+                    );
+                });
+            });
+
+            const del = document.createElement("button");
+            del.className = "preset-btn preset-delete";
+            del.textContent = "×";
+            del.title = "삭제";
+            del.addEventListener("click", () => {
+                if (!confirm(`"${preset.name}" 프리셋을 삭제하시겠습니까?`)) return;
+                loadPresets((all) => {
+                    savePresets(all.filter((p) => p.id !== preset.id), renderPresetBar);
+                });
+            });
+
+            wrapper.appendChild(btn);
+            wrapper.appendChild(rename);
+            wrapper.appendChild(del);
+            bar.appendChild(wrapper);
+        });
+
+        const addBtn = document.createElement("button");
+        addBtn.className = "preset-btn preset-add";
+        addBtn.textContent = "사용자 정의 +";
+        addBtn.title = "현재 목록을 새 프리셋으로 저장";
+        addBtn.addEventListener("click", () => {
+            const hanzis = parseHanziList(textarea.value);
+            if (hanzis.length === 0) {
+                alert("저장할 한자가 없습니다.");
+                return;
+            }
+            loadPresets((all) => {
+                const newPreset = {
+                    id: `custom_${Date.now()}`,
+                    name: `사용자 정의${all.length + 1}`,
+                    hanzis,
+                };
+                savePresets([...all, newPreset], () => {
+                    activePresetId = newPreset.id;
+                    applyPreset(newPreset.hanzis, newPreset.id);
+                    renderPresetBar();
+                    renderLastHanzi();
+                });
+            });
+        });
+        bar.appendChild(addBtn);
+    });
+};
+
+let presetSyncTimer = null;
+textarea.addEventListener("input", () => {
+    clearTimeout(presetSyncTimer);
+    presetSyncTimer = setTimeout(renderPresetBar, 300);
+});
+
+textarea.addEventListener("blur", () => {
+    clearTimeout(presetSyncTimer);
+    const hanzis = parseHanziList(textarea.value);
+    if (hanzis.length === 0) return;
+    applyPreset(hanzis, activePresetId);  // synchronous — safe if popup closes immediately
+    if (activePresetId !== "default") {
+        loadPresets((all) => {
+            savePresets(
+                all.map((p) => p.id === activePresetId ? { ...p, hanzis } : p),
+                renderPresetBar
+            );
+        });
+    } else {
+        renderPresetBar();
+    }
+});
 
 const HANZI_PATTERN = /\p{Script=Han}/gu;
 
@@ -32,7 +182,7 @@ const parseHanziList = (rawText) =>
     );
 
 const renderSavedHanzis = () => {
-    chrome.storage.local.get({ hanzis: [] }, (data) => {
+    chrome.storage.local.get({ hanzis: [], activePresetId: null }, (data) => {
         if (Array.isArray(data.hanzis) && data.hanzis.length > 0) {
             textarea.value = data.hanzis.join(", ");
         } else {
@@ -40,22 +190,24 @@ const renderSavedHanzis = () => {
             chrome.storage.local.set({ hanzis: defaultList });
             textarea.value = defaultList.join(", ");
         }
+        loadPresets((presets) => {
+            if (data.activePresetId) {
+                const valid = data.activePresetId === "default"
+                    || presets.some((p) => p.id === data.activePresetId);
+                activePresetId = valid ? data.activePresetId : null;
+            }
+            if (!activePresetId) syncActivePreset(presets);
+            renderPresetBar();
+            renderLastHanzi();
+        });
     });
 };
 
-saveButton.addEventListener("click", () => {
-    const hanziList = parseHanziList(textarea.value);
-
-    chrome.storage.local.set({ hanzis: hanziList }, () => {
-        textarea.value = hanziList.join(", ");
-        alert("한자가 저장되었습니다!");
-    });
-});
-
 const renderLastHanzi = () => {
-    chrome.storage.local.get({ lastHanzi: "", lastHanziUrl: "" }, (data) => {
-        if (data.lastHanzi) {
-            lastHanziInfo.textContent = `마지막 학습: ${data.lastHanzi}`;
+    chrome.storage.local.get({ lastHanziMap: {} }, (data) => {
+        const entry = (data.lastHanziMap || {})[activePresetId];
+        if (entry && entry.hanzi) {
+            lastHanziInfo.textContent = `마지막 학습: ${entry.hanzi}`;
         } else {
             lastHanziInfo.textContent = "아직 방문한 한자가 없습니다.";
         }
@@ -63,19 +215,19 @@ const renderLastHanzi = () => {
 };
 
 goToLastHanziButton.addEventListener("click", () => {
-    chrome.storage.local.get({ lastHanzi: "", lastHanziUrl: "" }, (data) => {
-        if (!data.lastHanziUrl && !data.lastHanzi) {
+    chrome.storage.local.get({ lastHanziMap: {} }, (data) => {
+        const entry = (data.lastHanziMap || {})[activePresetId];
+        if (!entry || (!entry.url && !entry.hanzi)) {
             alert("아직 방문한 한자가 없습니다. 먼저 한자 상세 페이지를 방문하세요.");
             return;
         }
-        const url = data.lastHanziUrl || `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(data.lastHanzi)}`;
+        const url = entry.url || `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(entry.hanzi)}`;
         chrome.tabs.create({ url });
     });
 });
 
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => { renderSavedHanzis(); renderLastHanzi(); }, { once: true });
+    document.addEventListener("DOMContentLoaded", renderSavedHanzis, { once: true });
 } else {
     renderSavedHanzis();
-    renderLastHanzi();
 }
