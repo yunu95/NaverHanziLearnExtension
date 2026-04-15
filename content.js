@@ -532,6 +532,10 @@ const renderPanel = () => {
 
     if (!currentHanzi && !sound && !meaning) return;
 
+    if (currentHanzi) {
+        chrome.storage.local.set({ lastHanzi: currentHanzi, lastHanziUrl: window.location.href });
+    }
+
     let panel = document.getElementById(PANEL_ID);
     if (!panel) {
         panel = document.createElement("div");

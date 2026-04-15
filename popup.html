@@ -38,6 +38,19 @@
             font-weight: bold;
         }
 
+        #goToLastHanzi {
+            margin-top: 8px;
+            background: #7a1f1f;
+        }
+
+        #lastHanziInfo {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #7a1f1f;
+            text-align: center;
+            min-height: 18px;
+        }
+
         .reload-marker {
             margin: 0 0 12px;
             padding: 8px 10px;
@@ -54,6 +67,8 @@
     <div class="reload-marker">RELOAD CHECK VERSION</div>
     <textarea id="hanziList" rows="10" cols="30" placeholder="Enter Hanzis separated by commas"></textarea>
     <button id="save">Save Hanzis</button>
+    <div id="lastHanziInfo"></div>
+    <button id="goToLastHanzi">Go to Last Hanzi</button>
     <script src="popup.js"></script>
 </body>
 </html>

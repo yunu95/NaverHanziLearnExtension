@@ -1,5 +1,7 @@
 const textarea = document.getElementById("hanziList");
 const saveButton = document.getElementById("save");
+const goToLastHanziButton = document.getElementById("goToLastHanzi");
+const lastHanziInfo = document.getElementById("lastHanziInfo");
 
 const HANZI_PATTERN = /\p{Script=Han}/gu;
 
@@ -50,8 +52,30 @@ saveButton.addEventListener("click", () => {
     });
 });
 
+const renderLastHanzi = () => {
+    chrome.storage.local.get({ lastHanzi: "", lastHanziUrl: "" }, (data) => {
+        if (data.lastHanzi) {
+            lastHanziInfo.textContent = `Last: ${data.lastHanzi}`;
+        } else {
+            lastHanziInfo.textContent = "No hanzi visited yet.";
+        }
+    });
+};
+
+goToLastHanziButton.addEventListener("click", () => {
+    chrome.storage.local.get({ lastHanzi: "", lastHanziUrl: "" }, (data) => {
+        if (!data.lastHanziUrl && !data.lastHanzi) {
+            alert("No hanzi visited yet. Browse a hanzi description page first.");
+            return;
+        }
+        const url = data.lastHanziUrl || `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(data.lastHanzi)}`;
+        chrome.tabs.create({ url });
+    });
+});
+
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", renderSavedHanzis, { once: true });
+    document.addEventListener("DOMContentLoaded", () => { renderSavedHanzis(); renderLastHanzi(); }, { once: true });
 } else {
     renderSavedHanzis();
+    renderLastHanzi();
 }

@@ -4,7 +4,8 @@
     "version": "1.0",
     "description": "Redirects to Naver Hanzi Dictionary.",
     "permissions": [
-        "storage"
+        "storage",
+        "tabs"
     ],
     "background": {
         "service_worker": "background.js"
