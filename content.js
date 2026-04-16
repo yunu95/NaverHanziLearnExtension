@@ -559,6 +559,41 @@ const renderPanel = () => {
         `<div style="font-size:38px;font-weight:bold;color:#d62828;line-height:1.1;margin-bottom:8px;">${currentHanzi || ""}</div>` +
         (sound ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">음</span> <strong>${sound}</strong></div>` : "") +
         (meaning ? `<div style="font-size:15px;"><span style="font-size:11px;color:#999;">뜻</span> <strong>${meaning}</strong></div>` : "");
+
+    // Position panel just to the left of "한자 구성원리" heading
+    requestAnimationFrame(() => {
+        let targetEl = null;
+        const candidates = document.querySelectorAll("h2, h3, h4, h5, dt, strong, span, p, div");
+        for (const el of candidates) {
+            const text = el.childNodes.length
+                ? Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join("").trim()
+                : el.textContent.trim();
+            if (text === "한자 구성원리") { targetEl = el; break; }
+        }
+        if (!targetEl) {
+            // fallback: any element whose trimmed text starts with "한자 구성원리"
+            for (const el of candidates) {
+                if (el.textContent.trim().startsWith("한자 구성원리")) { targetEl = el; break; }
+            }
+        }
+
+        const panelEl = document.getElementById(PANEL_ID);
+        if (!panelEl) return;
+
+        if (targetEl) {
+            const rect = targetEl.getBoundingClientRect();
+            const panelRect = panelEl.getBoundingClientRect();
+            panelEl.style.right = "";
+            panelEl.style.transform = "";
+            panelEl.style.left = Math.max(0, rect.left - panelRect.width - 12) + "px";
+            panelEl.style.top = Math.max(0, rect.top) + "px";
+        } else {
+            panelEl.style.left = "";
+            panelEl.style.right = "16px";
+            panelEl.style.top = "50%";
+            panelEl.style.transform = "translateY(-50%)";
+        }
+    });
 };
 
 const startFloatingPanel = () => {
