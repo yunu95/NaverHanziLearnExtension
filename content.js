@@ -631,15 +631,15 @@ const positionStrokeOverlay = () => {
     const overlay = document.getElementById("hanzi-ext-stroke");
     if (!overlay) return;
 
-    const contentEl = document.getElementById("content");
-    if (!contentEl) {
+    const anchorEl = document.getElementById("aside") || document.getElementById("content");
+    if (!anchorEl) {
         overlay.style.right = "16px";
         overlay.style.left = "auto";
         overlay.style.top = "70vh";
         return;
     }
 
-    const rect = contentEl.getBoundingClientRect();
+    const rect = anchorEl.getBoundingClientRect();
     const overlayRect = overlay.getBoundingClientRect();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
