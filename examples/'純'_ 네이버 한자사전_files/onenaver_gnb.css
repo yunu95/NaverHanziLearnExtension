@@ -1,0 +1,621 @@
+@charset "utf-8";
+/* Common */
+#header img, #header fieldset {
+	border: 0
+}
+#header ul, #header ol {
+	list-style: none
+}
+#header em, #header address {
+	font-style: normal
+}
+#header a:hover, #header a:active, #header a:focus {
+	text-decoration: none
+}
+#header .Nblind {
+	position:absolute;
+	clip:rect(0 0 0 0);
+	width:1px;
+	height:1px;
+	margin:-1px;
+	overflow:hidden;
+}
+/* Image Sprite */
+.Nsp_gnb {
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: top;
+	background: url(../img/Nsp_gnb_220427.png) no-repeat;
+	color: transparent;
+	font-size: 1px;
+	text-indent: -100px;
+}
+/* Common GNB */
+#header .Ngnb_wrap{
+	position: relative;
+	z-index:  10000;
+	min-width: 980px;
+	text-align: left;
+}
+#header .Ngnb_inner,
+#header .Nlnb_inner{
+	position: relative;
+	z-index: 1000;
+	width: 980px;
+	margin: 0 auto;
+	padding: 0 20px;
+	font-size: 12px;
+	font-family: Helvetica, nanumgothic, '나눔고딕', NanumSquare, dotum, sans-serif;
+}
+#header .Ngnb_inner:after,
+#header .Nlnb_inner:after{
+	display:table;
+	clear:both;
+	content:'';
+}
+#header .Nmulti_lang .Ngnb_inner,
+#header .Nmulti_lang .Nlnb_inner{
+	font-family: Helvetica, dotum, sans-serif;
+}
+#header .Ngnb {
+	height: 54px;
+	border-bottom: 1px solid #00af35;
+	background: #03c75a;
+}
+#header .Ngnb .Ngnb_inner {
+	z-index: 1010;
+}
+#header .Ngnb .Nlogo_link {
+	float: left;
+	height: 54px;
+}
+#header .Ngnb .Nlogo_link .Nsp_gnb {
+	width: 59px;
+	height: 12px;
+	margin-top: 22px;
+	background-position: 0 0;
+}
+#header .Ngnb_service {
+	float: left;
+}
+#header .Ngnb_service a {
+	display: block;
+	height: 54px;
+}
+#header .Ngnb_service .Nservice_item {
+	float: left;
+	margin: 0 10px 0 7px;
+}
+#header .Ngnb_service .Nservice_subitem {
+	float: left;
+	position: relative;
+	padding: 0 10px 0 11px;
+}
+
+html:not([lang='ko']) #header .Ngnb_service .Nservice_subitem {
+	padding: 0 8px;
+}
+
+#header .Ngnb_service .Nservice_subitem:before {
+	content: '';
+	position: absolute;
+	top: 20px;
+	left: 0;
+	height: 15px;
+	border-left: 1px solid #00b336;
+}
+#header .Ngnb_service .Nservice_subitem .Nsp_gnb {
+	height: 19px;
+	margin-top: 18px;
+}
+#header .Ngnb_service .Nhome .Nsp_gnb {
+	height: 24px;
+	margin-top: 16px;
+}
+#header .Ngnb_service .Nhome.Ndic .Nsp_gnb {
+	width: 41px;
+	background-position: 0 -20px;
+}
+#header .Ngnb_service .Nhome.Ntranslate .Nsp_gnb {
+	width: 60px;
+	background-position: 0 -50px;
+}
+
+#header .Ngnb_service .Nhome.Nopenpro .Nsp_gnb {
+	width: 60px;
+	background-position: 0 -230px;
+}
+
+#header .Ngnb_service .Nopenpro .Nsp_gnb {
+	width: 97px;
+	background-position: 0 -230px;
+}
+
+#header .Ngnb_service .Nhome.Nusertranslation .Nsp_gnb {
+	width: 80px;
+	background-position: 0 -80px;
+}
+#header .Ngnb_service .Ndic .Nsp_gnb {
+	width: 32px;
+	background-position: 0 -110px;
+}
+#header .Ngnb_service .Ntranslate .Nsp_gnb {
+	width: 47px;
+	background-position: -39px -110px;
+}
+#header .Ngnb_service .Nusertranslation .Nsp_gnb {
+	width: 60px;
+	background-position: -90px -110px;
+}
+#header .Ngnb_service .Nknowledge .Nsp_gnb {
+	width: 62px;
+	background-position: -160px -110px;
+}
+#header .Ngnb_service .enth .Nsp_gnb {
+	width: 128px;
+	background-position: 0 -120px;
+}
+#header .Ngnb_service .cnen .Nsp_gnb {
+	width: 160px;
+	background-position: 0 -150px;
+}
+#header .Ngnb_service .encn .Nsp_gnb {
+	width: 160px;
+	background-position: 0 -180px;
+}
+#header .Nmulti_lang .Ngnb_service .Nsp_gnb, #header .Nmulti_lang .Ngnb_service .Nsp_gnb {
+	overflow: hidden;
+	width: auto !important;
+	height: 54px !important;
+	margin: 0 !important;
+	background: none !important;
+	color: #fff;
+	line-height: 56px;
+	text-indent: 0;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1), -1px -1px 0 rgba(0, 0, 0, 0.1), 1px -1px 0 rgba(0, 0, 0, 0.1), -1px 1px 0 rgba(0, 0, 0, 0.1), 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+#header .Nmulti_lang .Ngnb_service .Nservice_item .Nsp_gnb {
+	line-height: 54px;
+	font-size: 17px;
+	letter-spacing: -0.5px;
+}
+#header .Nmulti_lang .Ngnb_service .Nservice_subitem .Nsp_gnb {
+	color: #ccf4d8;
+	font-size: 15px;
+	letter-spacing: -0.5px;
+}
+#header .Ngnb_common {
+	float: right;
+}
+#header .Nlnb {
+	height: 39px;
+	border-bottom: 1px solid #e5e5e5;
+	background-color: #fff;
+}
+#header .Nlnb .Nnav .Nnav_cell {
+	position: relative;
+	float: left;
+	margin-right: 20px;
+}
+#header .Nlnb .Nnav .Nnav_item {
+	display: inline-block;
+	position: relative;
+	font-size: 12px;
+	color: #2b2b2c;
+	line-height: 39px;
+	vertical-align: top;
+	font-weight: bold;
+}
+#header .Nmulti_lang .Nlnb .Nnav .Nnav_item{
+	font-size: 13px;
+}
+#header .Nlnb .Nnav .Nnav_item_active {
+	color: #03c75a;
+}
+#header .Nlnb .Nnav .Nnav_item_active:after,
+#header .Nlnb .Nnav .Nmore .Nnav_item_active .Nnav_txt:after {
+	content: '';
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	right: 0;
+	border-bottom: 3px solid #03c75a;
+}
+
+#header .Nlnb .Nnav .Nmore .Nnav_item_active:after {
+	display: none;
+}
+
+#header .Nlnb .Nnav .Nnew {
+	width: 7px;
+	height: 9px;
+	margin: 15px 0 0 4px;
+	background-position: -120px -20px;
+}
+#header .Nlnb .Nnav .Nupdate {
+	width: 7px;
+	height: 9px;
+	margin: 15px 0 0 4px;
+	background-position: -130px -20px;
+}
+#header .Nlnb .Nnav .Nbeta {
+	width: 7px;
+	height: 9px;
+	margin: 15px 0 0 4px;
+	background-position: -154px -20px;
+}
+#header .Nlnb .Nnav .Nnav_txt {
+	display: inline-block;
+	position: relative;
+	line-height: 39px;
+}
+#header .Nlnb .Nnav .Nico_more {
+	width: 5px;
+	height: 3px;
+	margin: 17px 0 0 5px;
+	background-position: -100px -20px;
+	vertical-align: top;
+}
+#header .Nlnb .Nnav .Nnav_item_active .Nico_more {
+	background-position: -110px -20px;
+}
+#header .Nlnb .Nnav .Nmore_dic {
+	display: none;
+	position: absolute;
+	top: 39px;
+	right: 0;
+	z-index: 2147483647;
+	width: 451px;
+	padding: 18px 20px;
+	border: 1px solid #00a933;
+	background: #fff
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap {
+	position: relative;
+	width: 100%;
+	padding: 16px 0;
+	border-top: 1px solid #f2f2f2
+}
+#header .Nlnb .Nnav .Nmore_dic .btn_close {
+	position: absolute;
+	top: 10px; 
+	right: 10px;
+    padding: 10px;
+    background: none;
+}
+#header .Nlnb .Nnav .Nmore_dic .icon_close {
+	display: inline-block;
+	width: 14px; 
+	height: 14px;
+	background-position: -216px 0;
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap .Nnew,
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap .Nupdate,
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap .Nbeta {
+	margin: 6px 0 0 4px
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap.Nhot {
+	padding-top: 0;
+	border: none
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap.Netc_svc {
+	display: none;
+	padding: 12px 0 0
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap.Ngo_trans {
+	padding: 16px 0
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap.Ngo_trans span.Nico_trans {
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+	top: 1px;
+	width: 11px;
+	height: 10px;
+	margin: 5px 4px 0 4px;
+	background-position: -140px -20px;
+	color: transparent;
+	text-indent: -100px;
+}
+
+#header .Nlnb .Nnav .Nmore_dic .Ngo_trans .Nline_dashed_border {
+	margin-top: 7px;
+	padding-top: 8px;
+	border-top: 1px dashed #e3e3e4;
+}
+#header .Nspacing_small {
+	letter-spacing: -1px;
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap.Nusr_service {
+	padding: 16px 0 0
+}
+#header .Nlnb .Nnav .Nmore_dic .Ntit {
+	margin-bottom: 7px;
+	font-weight: bold;
+	color: #333;
+	text-align: left;
+	font-family: Helvetica, nanumgothic, '나눔고딕', NanumSquare, dotum, sans-serif;
+}
+#header .Nlnb .Nnav .Nmore_dic ul {
+	width: 100%;
+	margin-right: -20px
+}
+#header .Nlnb .Nnav .Nmore_dic ul:after {
+	display: block;
+	clear: both;
+	content: ''
+}
+#header .Nlnb .Nnav .Nmore_dic ul li {
+	float: left;
+	width: 130px;
+	height: 21px;
+	margin-right: 20px;
+	line-height: 21px;
+	text-align: left;
+	white-space: nowrap;
+}
+#header .Nlnb .Nnav .Nmore_dic .Netc_svc ul li {
+	width: auto;
+	margin-right: 0
+}
+#header .Nlnb .Nnav .Nmore_dic .Netc_svc ul li a {
+	font-weight: bold;
+	color: #3d4963
+}
+#header .Nlnb .Nnav .Nmore_dic .Netc_svc ul li .Nbar {
+	display: inline-block;
+	width: 1px;
+	height: 11px;
+	margin: 0 10px;
+	background: none;
+	background-color: #d6d6d6;
+	vertical-align: -1px;
+	*vertical-align: bottom;
+	zoom: 1
+}
+#header .Nlnb .Nnav .Nmore_dic ul li a {
+	display: inline;
+	width: 100%;
+	text-indent: 0;
+	white-space: nowrap;
+	color: #333;
+	font-family: Helvetica, nanumgothic, '나눔고딕', NanumSquare, dotum, sans-serif;
+}
+#header .Nlnb .Nnav .Nmore_dic ul li a:hover {
+	color: #03c75a
+}
+#header .Nlnb .Nnav .Nmore_dic .Ndic_wrap.Ngo_trans li a:hover span.Nico_trans {
+	background-position: -140px -30px;
+}
+#header .Nlnb .Nnav .Nmore_dic ul li .Nis_selected {
+	color: #03c75a;
+	font-weight: bold;
+}
+#header .Nlnb .Nnav .Nmore_dic.v1 {
+	right: 5px;
+	left: auto;
+	width: auto
+}
+#header .Nlnb .Nnav .Nmore_dic.v1 .Ndic_wrap {
+	padding: 0;
+	border-top: none
+}
+#header .Nlnb .Nnav .Nmore_dic.v1 ul li {
+	float: none;
+	width: auto
+}
+#header .Nlnb .Nnav .Nnav_item_active ~ .Nmore_dic {
+	display: block;
+}
+#header .Nlnb .Nnav .Nlogo {
+	float: left;
+	height: 34px;
+}
+#header .Nlnb .Nnav .Nlogo .Nsp_gnb {
+	width: 45px;
+	height: 8px;
+	margin-top: 13px;
+	background-position: -70px -60px;
+}
+#header .Nlnb .Nnav .Nservice_item {
+	float: left;
+}
+#header .Nlnb .Nnav .Nservice_item .Nhome {
+	display: block;
+	height: 34px;
+	margin-left: 5px;
+}
+#header .Nlnb .Nnav .Nservice_item .Nhome .Nsp_gnb {
+	width: 38px;
+	height: 15px;
+	margin-top: 10px;
+	background-position: -140px -60px;
+}
+#header .Nmulti_lang .Nlnb .Nnav .Nservice_item .Nhome .Nsp_gnb {
+	width: auto;
+	height: auto;
+	margin: 0;
+	background: none;
+	color: #727272;
+	line-height: 34px;
+	text-indent: 0;
+	font-size: 16px;
+}
+#header .Nlnb_tool {
+	float: right;
+	white-space: nowrap;
+}
+#header .Nlnb_tool .Nlink {
+	float: left;
+	margin-right: 20px;
+	color: #2b2b2c;
+	line-height: 40px;
+	font-family: Helvetica, nanumgothic, '나눔고딕', NanumSquare, dotum, sans-serif;
+}
+#header .Nlang_setting {
+	float: left;
+	text-align: right;
+}
+#header .Nlang_setting .Nlabel {
+	display: inline-block;
+	color: #828282;
+	line-height: 40px;
+	vertical-align: top;
+	font-family: Helvetica, nanumgothic, '나눔고딕', NanumSquare, dotum, sans-serif;
+}
+#header .Nlang_setting .Nbtn_select {
+	display: inline-block;
+	border: 0;
+	background: none;
+	color: #2b2b2b;
+	line-height: 40px;
+	vertical-align: top;
+	font-size: 12px;
+	font-family: Helvetica, nanumgothic, '나눔고딕', NanumSquare, dotum, sans-serif;
+}
+#header .Nlang_setting .Nico_more {
+	width: 5px;
+	height: 3px;
+	margin: 19px 0 0 5px;
+	background-position: -100px -20px;
+	vertical-align: top;
+}
+#header .Nlang_setting .Nlist {
+	display: none;
+	position: absolute;
+	top: 39px;
+	right: 0;
+	width: 128px;
+	border: 1px solid #00a933;
+	background: #fff;
+	text-align: left;
+}
+#header .Nlang_setting .Nitem {
+	display: block;
+	height: 31px;
+	padding-left: 20px;
+	border-bottom: 1px solid #f2f2f2;
+	line-height: 31px;
+	color: #333;
+}
+#header .Nlang_setting .Nitem .Nline {
+	display: none;
+	position: absolute;
+	top: -1px;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: #e3e3e4;
+}
+#header .Nlang_setting .Nitem:hover {
+	position: relative;
+	border-color: #e3e3e4;
+	background: #f2f2f3;
+	color: #03c75a;
+	zoom: 1
+}
+#header .Nlang_setting .Nitem:hover .Nline {
+	display: block;
+}
+#header .Nlang_setting .Nitem:first-child:hover .Nline {
+	display: none;
+}
+#header .Nlang_setting .Nitem_last:hover {
+	padding-bottom: 1px;
+	border-bottom: 0;
+}
+#header .Nlang_setting .Nitem_active {
+	color: #03c75a;
+}
+#header .Nlang_setting_active .Nbtn_select .Nsp_gnb {
+	background-position: -110px -20px;
+}
+#header .Nlang_setting_active .Nlist {
+	display: block;
+}
+
+
+
+.is-darkmode {}
+/* 다크모드 */
+.is-darkmode #header .Ngnb,
+.is-darkmode #header .Nlnb {
+	background-color: #27282a;
+	border-color: #333435;
+}
+
+.is-darkmode #header .Ngnb_service .Nservice_subitem:before {
+	border-color: #333435;
+}
+
+
+.is-darkmode #header .Nlnb .Nnav .Nnav_item {
+	color: #fff;
+}
+
+.is-darkmode #header .Nlnb .Nnav .Nnav_item_active {
+	color: #19CE60;
+}
+
+.is-darkmode #header .Nlang_setting .Nlabel {
+	color: #999;
+}
+
+.is-darkmode #header .Nlnb .Nnav .Nmore_dic .icon_close {
+	background: url(../img/icon_close.png) no-repeat;
+	background-size: contain;
+}
+
+.is-darkmode #header .Nlnb .Nnav .Nmore_dic {
+	border-color: #191919;
+	background: #27282a;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.is-darkmode #header .Nlnb .Nnav .Nmore_dic ul li a,
+.is-darkmode #header .Nlnb .Nnav .Nmore_dic .Ntit {
+	color: #fff;	
+}
+
+.is-darkmode #header .Nlnb .Nnav .Nmore_dic .Ndic_wrap {
+	border-color: #333435;
+}
+
+.is-darkmode #header .Nlnb .Nnav .Nnew {
+	background-image: url(../img/ico_new.png);
+	background-size: 7px 9px;
+	background-position: 0 0;
+}
+.is-darkmode #header .Nlnb .Nnav .Nupdate {
+	background-image: url(../img/ico_update.png);
+	background-size: 7px 9px;
+	background-position: 0 0;
+}
+
+.is-darkmode #header .Nlang_setting .Nlist {
+	border-color: #191919;
+    background-color: #27282a;
+}
+
+.is-darkmode #header .Nlang_setting .Nitem {
+	border-color: #464646;
+	color: #cacaca;
+}
+
+.is-darkmode #header .Nlang_setting .Nitem:hover {
+	background: #484b4e;
+	color: #19ce60;
+	border-color: transparent;
+}
+
+.is-darkmode #header .Nlang_setting .Nitem_active {
+	color: #19ce60;
+}
+.is-darkmode #header .Nlang_setting .Nbtn_select {
+	color: #fff;
+}
+
+.is-darkmode #header .Nlang_setting .Nitem:hover .Nline {
+	display: none;
+}

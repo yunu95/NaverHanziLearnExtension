@@ -105,22 +105,18 @@ const renderPresetBar = () => {
         const addBtn = document.createElement("button");
         addBtn.className = "preset-btn preset-add";
         addBtn.textContent = "사용자 정의 +";
-        addBtn.title = "현재 목록을 새 프리셋으로 저장";
+        addBtn.title = "새 빈 프리셋 만들기";
         addBtn.addEventListener("click", () => {
-            const hanzis = parseHanziList(textarea.value);
-            if (hanzis.length === 0) {
-                alert("저장할 한자가 없습니다.");
-                return;
-            }
             loadPresets((all) => {
                 const newPreset = {
                     id: `custom_${Date.now()}`,
                     name: `사용자 정의${all.length + 1}`,
-                    hanzis,
+                    hanzis: [],
                 };
                 savePresets([...all, newPreset], () => {
                     activePresetId = newPreset.id;
-                    applyPreset(newPreset.hanzis, newPreset.id);
+                    textarea.disabled = false;
+                    textarea.value = "";
                     renderPresetBar();
                     renderLastHanzi();
                 });
@@ -133,7 +129,21 @@ const renderPresetBar = () => {
 let presetSyncTimer = null;
 textarea.addEventListener("input", () => {
     clearTimeout(presetSyncTimer);
-    presetSyncTimer = setTimeout(renderPresetBar, 300);
+    presetSyncTimer = setTimeout(() => {
+        const hanzis = parseHanziList(textarea.value);
+        if (hanzis.length === 0) return;
+        applyPreset(hanzis, activePresetId);
+        if (activePresetId !== "default") {
+            loadPresets((all) => {
+                savePresets(
+                    all.map((p) => p.id === activePresetId ? { ...p, hanzis } : p),
+                    renderPresetBar
+                );
+            });
+        } else {
+            renderPresetBar();
+        }
+    }, 300);
 });
 
 textarea.addEventListener("blur", () => {

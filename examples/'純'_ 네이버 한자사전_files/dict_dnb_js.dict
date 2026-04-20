@@ -1,0 +1,18 @@
+function isInclude(name){
+    var js= /js$/i.test(name);
+    var es=document.getElementsByTagName(js?'script':'link');
+    for(var i=0;i<es.length;i++)
+    if(es[i][js?'src':'href'].indexOf(name)!=-1)return true;
+    return false;
+}
+
+function loadDnbJs (){
+	var elem = document.createElement("script");
+	elem.type = "text/javascript";
+	elem.src = "https://ssl.pstatic.net/dicimg/dic-common-js/20260206150837/gnb/dic.DNB.js";
+	document.head.appendChild(elem);
+}
+
+if(!isInclude("dic.DNB.js")){
+	loadDnbJs ();
+}

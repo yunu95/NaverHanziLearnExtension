@@ -1,0 +1,2891 @@
+@charset "UTF-8";
+
+.heading_language_school .text_more:after,
+.heading_vkorean .logo_vkorean,
+.heading_vkorean:after,
+.banner_language_school .banner_inner .img.video:after,
+.banner_vkorean .banner_inner .img.video:after,
+.banner_language_school .banner_inner .img.audio:after,
+.banner_vkorean .banner_inner .img.audio:after,
+.section_study_korean .component_study .img_area .play_time.live:after,
+.section_study_korean .component_study .img.video:after,
+.section_study_korean .component_study .img.audio:after,
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .img.video:after,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .img.video:after,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .img.video:after,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .img.video:after,
+.section_title_link:after,
+.component_audioclip .item .ico_audio,
+.component_audioclip .item .ico_video {
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/sp_common_ver7.png);
+    -webkit-background-size: 129px 83px;
+    background-size: 129px 83px;
+}
+
+@font-face {
+    font-family: 'NanumSquareDST';
+    font-weight: 400;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareR.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareR.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'NanumSquareDST';
+    font-weight: 700;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareB.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareB.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'NanumSquareDST';
+    font-weight: 800;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareEB.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareEB.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'NanumSquareDST';
+    font-weight: 300;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareL.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareL.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'NanumSquareRound';
+    font-weight: 400;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareRoundR.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareR.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'NanumSquareRound';
+    font-weight: 700;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareRoundB.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareB.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'NanumSquareRound';
+    font-weight: 800;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareRoundEB.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareEB.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'NanumSquareRound';
+    font-weight: 300;
+    src: url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareRoundL.woff2) format("woff2"), url(https://ssl.pstatic.net/dicimg/banner/common/css/font/NanumSquareL.woff) format("woff");
+}
+
+.banner_common_card {
+    display: block;
+    background-color: #fff;
+    color: #666;
+}
+
+.banner_common_card.align_center {
+    text-align: center;
+}
+
+.banner_common_card.type_border {
+    border-top-width: 2px;
+    border-top-style: solid;
+}
+
+.banner_common_card.type_bg .banner_inner {
+    min-height: 100px;
+}
+
+.banner_common_card .banner_inner {
+    display: table;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+.banner_common_card .banner_inner .img {
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
+.banner_common_card .banner_inner .img_area {
+    display: table-cell;
+    width: 80px;
+    padding-right: 14px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.banner_common_card .banner_inner .txt_area {
+    display: table-cell;
+    padding: 13px 5px 13px 14px;
+    word-break: normal;
+    word-wrap: break-word;
+    vertical-align: middle;
+}
+
+.banner_common_card .banner_inner .txt_area .title {
+    display: block;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: normal;
+    letter-spacing: -0.7px;
+    color: #000;
+}
+
+.banner_common_card .banner_inner .txt_area .title strong {
+    font-weight: normal;
+}
+
+.banner_common_card .banner_inner .txt_area .description {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 16px;
+    color: #666;
+}
+
+.banner_common_card .banner_inner .source {
+    margin-top: 10px;
+}
+
+.banner_common_card .banner_inner .logo_korea_university {
+    display: inline-block;
+    width: 89px;
+    height: 20px;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_korea_university.png);
+    -webkit-background-size: 89px auto;
+    background-size: 89px auto;
+}
+
+.banner_common_card .banner_inner .sub_title {
+    margin: 0 0 3px 0;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.banner_common_card.type_img .img_area {
+    padding-right: 0;
+}
+
+.banner_common_card.violet {
+    background-color: #8a1dff;
+}
+
+.banner_common_card.brown {
+    background-color: #bc9699;
+}
+
+.banner_common_card.orange {
+    background-color: #ffecdb;
+    border-top-color: #ff803b;
+}
+
+.banner_common_card.orange .point {
+    color: #e35609;
+}
+
+.banner_common_card.blue {
+    background-color: #0090ff;
+}
+
+.banner_common_card.lightblue {
+    background-color: #d5e7ff;
+    border-top-color: #559af9;
+}
+
+.banner_common_card.lightblue .point {
+    color: #1e6edd;
+}
+
+.banner_common_card.lightgray {
+    background-color: #f6fafd;
+}
+
+.banner_common_card.green {
+    border-top-color: #41cf38;
+}
+
+.banner_common_card.green .point {
+    color: #35b42a;
+}
+
+.banner_common_card.greenbrown {
+    border-top-color: #41cf38;
+}
+
+.banner_common_card.greenbrown .point {
+    color: #d97000;
+}
+
+.banner_common_card.greenblue {
+    border-top-color: #41cf38;
+}
+
+.banner_common_card.greenblue .point {
+    color: #3288ff;
+}
+
+.banner_common_card.lightblue {
+    background-color: #f6fbff;
+}
+
+.banner_common_card.lightpink {
+    background-color: #fef7fe;
+}
+
+.banner_common_card.lightyellow {
+    background-color: #faf7e4;
+}
+
+.banner_common_card.yellow {
+    background-color: #ffdf92;
+}
+
+.banner_common_card.blue {
+    background-color: #d5e7ff;
+    border-top: 2px solid #559af9;
+}
+
+.banner_common_card.blue .point {
+    color: #1e6edd;
+}
+
+.banner_common_card.img_size_80x80 .img {
+    width: 80px;
+    height: 80px;
+    -webkit-background-size: 80px 80px;
+    background-size: 80px 80px;
+}
+
+.banner_common_card.img_size_80x64 .img {
+    width: 80px;
+    height: 64px;
+    -webkit-background-size: 80px 64px;
+    background-size: 80px 64px;
+}
+
+.banner_common_card.whiteblue {
+    border-top-color: #0090ff;
+}
+
+.banner_vkorean_wrap {
+    background-color: #fdfdfb;
+}
+
+.heading_language_school {
+    display: block;
+    position: relative;
+    padding: 11px 55px 9px 15px;
+    border-bottom: 1px solid #f2f2f4;
+    background-color: #fdfdfb;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    color: #222;
+}
+
+.heading_language_school .text_more {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -8px;
+    font-size: 13px;
+    line-height: 14px;
+    letter-spacing: -1px;
+    color: #999;
+}
+
+.heading_language_school .text_more:after {
+    display: inline-block;
+    width: 5px;
+    height: 10px;
+    margin: 4px 0 0 4px;
+    background-position: -117px -44px;
+    width: 5px;
+    height: 10px;
+    content: '';
+}
+
+.heading_vkorean {
+    display: block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 11px 30px 0 15px;
+    height: 40px;
+    border-bottom: 1px solid #f2f2f4;
+    background-color: #fdfdfb;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -.3px;
+    color: #444;
+}
+
+.heading_vkorean .logo_vkorean {
+    display: inline-block;
+    position: relative;
+    margin: -2px 3px 0 0;
+    vertical-align: top;
+    background-position: -85px -44px;
+    width: 22px;
+    height: 22px;
+}
+
+.heading_vkorean .logo_vkorean:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    -webkit-border-radius: 22px;
+    border-radius: 22px;
+    content: '';
+}
+
+.heading_vkorean:after {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-position: -109px -44px;
+    width: 6px;
+    height: 10px;
+    content: '';
+}
+
+.banner_language_school,
+.banner_vkorean {
+    display: block;
+}
+
+.banner_language_school .banner_inner,
+.banner_vkorean .banner_inner {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 15px;
+    background-color: #fdfdfb;
+    border-bottom: 1px solid #e1e2e3;
+}
+
+.banner_language_school .banner_inner .txt_area,
+.banner_vkorean .banner_inner .txt_area {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-left: 15px;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -1px;
+    color: #222;
+}
+
+.banner_language_school .banner_inner .txt_area .description,
+.banner_vkorean .banner_inner .txt_area .description {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.banner_language_school .banner_inner .txt_area strong,
+.banner_vkorean .banner_inner .txt_area strong {
+    font-weight: normal;
+    color: #559bfa;
+}
+
+.banner_language_school .banner_inner .img_area,
+.banner_vkorean .banner_inner .img_area {
+    position: relative;
+    width: 111px;
+    height: 72px;
+}
+
+.banner_language_school .banner_inner .img_area:after,
+.banner_vkorean .banner_inner .img_area:after {
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+}
+
+.banner_language_school .banner_inner .img,
+.banner_vkorean .banner_inner .img {
+    width: 100%;
+    height: 100%;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.banner_language_school .banner_inner .img.video:after,
+.banner_language_school .banner_inner .img.audio:after,
+.banner_vkorean .banner_inner .img.video:after,
+.banner_vkorean .banner_inner .img.audio:after {
+    position: absolute;
+    left: 7px;
+    bottom: 5px;
+    content: '';
+}
+
+.banner_language_school .banner_inner .img.video:after,
+.banner_vkorean .banner_inner .img.video:after {
+    background-position: -33px -36px;
+    width: 30px;
+    height: 30px;
+}
+
+.banner_language_school .banner_inner .img.audio:after,
+.banner_vkorean .banner_inner .img.audio:after {
+    background-position: 0px -36px;
+    width: 31px;
+    height: 31px;
+}
+
+.banner_language_school {
+    margin-bottom: 10px;
+}
+
+.banner_vkorean .banner_inner {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.banner_vkorean .banner_inner .img_area {
+    width: 128px;
+}
+
+.banner_vkorean .banner_inner .txt_area {
+    color: #333;
+}
+
+.banner_vkorean .banner_inner .img.live:after {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    padding: 0 4px;
+    background-color: #f41970;
+    color: #fff;
+    font-size: 10px;
+    line-height: 15px;
+    content: 'LIVE';
+}
+
+.banner_vkorean.type_fullimage .banner_inner {
+    position: relative;
+    padding: 30px;
+    height: 102px;
+}
+
+.banner_vkorean.type_fullimage .banner_inner .img_area {
+    width: 100%;
+    height: 102px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.banner_vkorean.type_fullimage .banner_inner .img_area:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 0;
+    background-image: -webkit-gradient(linear, left top, right top, from(#444444), to(rgba(68, 68, 68, 0.05)));
+    background-image: -webkit-linear-gradient(left, #444444, rgba(68, 68, 68, 0.05));
+    background-image: linear-gradient(to right, #444444, rgba(68, 68, 68, 0.05));
+    content: '';
+}
+
+.banner_vkorean.type_fullimage .banner_inner .img {
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.banner_vkorean.type_fullimage .banner_inner .txt_area {
+    z-index: 1;
+    padding-left: 0;
+    font-size: 17px;
+    line-height: 22px;
+    color: #fff;
+}
+
+.height50 .img {
+    height: 50px;
+}
+
+.height51 .img {
+    height: 51px;
+}
+
+.height52 .img {
+    height: 52px;
+}
+
+.height53 .img {
+    height: 53px;
+}
+
+.height54 .img {
+    height: 54px;
+}
+
+.height55 .img {
+    height: 55px;
+}
+
+.height56 .img {
+    height: 56px;
+}
+
+.height57 .img {
+    height: 57px;
+}
+
+.height58 .img {
+    height: 58px;
+}
+
+.height59 .img {
+    height: 59px;
+}
+
+.height60 .img {
+    height: 60px;
+}
+
+.height61 .img {
+    height: 61px;
+}
+
+.height62 .img {
+    height: 62px;
+}
+
+.height63 .img {
+    height: 63px;
+}
+
+.height64 .img {
+    height: 64px;
+}
+
+.height65 .img {
+    height: 65px;
+}
+
+.height66 .img {
+    height: 66px;
+}
+
+.height67 .img {
+    height: 67px;
+}
+
+.height68 .img {
+    height: 68px;
+}
+
+.height69 .img {
+    height: 69px;
+}
+
+.height70 .img {
+    height: 70px;
+}
+
+.height71 .img {
+    height: 71px;
+}
+
+.height72 .img {
+    height: 72px;
+}
+
+.height73 .img {
+    height: 73px;
+}
+
+.height74 .img {
+    height: 74px;
+}
+
+.height75 .img {
+    height: 75px;
+}
+
+.height76 .img {
+    height: 76px;
+}
+
+.height77 .img {
+    height: 77px;
+}
+
+.height78 .img {
+    height: 78px;
+}
+
+.height79 .img {
+    height: 79px;
+}
+
+.height80 .img {
+    height: 80px;
+}
+
+.height81 .img {
+    height: 81px;
+}
+
+.height82 .img {
+    height: 82px;
+}
+
+.height83 .img {
+    height: 83px;
+}
+
+.height84 .img {
+    height: 84px;
+}
+
+.height85 .img {
+    height: 85px;
+}
+
+.height86 .img {
+    height: 86px;
+}
+
+.height87 .img {
+    height: 87px;
+}
+
+.height88 .img {
+    height: 88px;
+}
+
+.height89 .img {
+    height: 89px;
+}
+
+.height90 .img {
+    height: 90px;
+}
+
+.height91 .img {
+    height: 91px;
+}
+
+.height92 .img {
+    height: 92px;
+}
+
+.height93 .img {
+    height: 93px;
+}
+
+.height94 .img {
+    height: 94px;
+}
+
+.height95 .img {
+    height: 95px;
+}
+
+.height96 .img {
+    height: 96px;
+}
+
+.height97 .img {
+    height: 97px;
+}
+
+.height98 .img {
+    height: 98px;
+}
+
+.height99 .img {
+    height: 99px;
+}
+
+.height100 .img {
+    height: 100px;
+}
+
+.height101 .img {
+    height: 101px;
+}
+
+.height102 .img {
+    height: 102px;
+}
+
+.height103 .img {
+    height: 103px;
+}
+
+.height104 .img {
+    height: 104px;
+}
+
+.height105 .img {
+    height: 105px;
+}
+
+.height106 .img {
+    height: 106px;
+}
+
+.height107 .img {
+    height: 107px;
+}
+
+.height108 .img {
+    height: 108px;
+}
+
+.height109 .img {
+    height: 109px;
+}
+
+.height110 .img {
+    height: 110px;
+}
+
+.height111 .img {
+    height: 111px;
+}
+
+.height112 .img {
+    height: 112px;
+}
+
+.height113 .img {
+    height: 113px;
+}
+
+.height114 .img {
+    height: 114px;
+}
+
+.height115 .img {
+    height: 115px;
+}
+
+.height116 .img {
+    height: 116px;
+}
+
+.height117 .img {
+    height: 117px;
+}
+
+.height118 .img {
+    height: 118px;
+}
+
+.height119 .img {
+    height: 119px;
+}
+
+.height120 .img {
+    height: 120px;
+}
+
+.section_study_korean .component_study {
+    padding-top: 16px;
+    padding-bottom: 18px;
+}
+
+.section_study_korean .component_study .link_study {
+    display: block;
+}
+
+.section_study_korean .component_study .img_area {
+    position: relative;
+    padding-top: 56.26%;
+}
+
+.section_study_korean .component_study .img_area .play_time {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 4px 6px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.75);
+    font-size: 12px;
+    line-height: 14px;
+    color: #fff;
+}
+
+.section_study_korean .component_study .img_area .play_time.live {
+    width: 47px;
+    height: 22px;
+    padding: 0;
+}
+
+.section_study_korean .component_study .img_area .play_time.live:after {
+    display: block;
+    background-position: -36px 0px;
+    width: 47px;
+    height: 22px;
+    content: '';
+}
+
+.section_study_korean .component_study .img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.section_study_korean .component_study .img:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    content: '';
+}
+
+.section_study_korean .component_study .img.video:after,
+.section_study_korean .component_study .img.audio:after {
+    position: absolute;
+    content: '';
+}
+
+.section_study_korean .component_study .img.video:after {
+    left: 10px;
+    bottom: 10px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    background-position: 0px 0px;
+    width: 34px;
+    height: 34px;
+}
+
+.section_study_korean .component_study .img.audio:after {
+    left: 8px;
+    bottom: 5px;
+    background-position: 0px -36px;
+    width: 31px;
+    height: 31px;
+}
+
+.section_study_korean .component_study .txt_area {
+    padding: 18px 0 0;
+    color: #000;
+}
+
+.section_study_korean .component_study .txt_area .title {
+    font-size: 15px;
+    line-height: 20px;
+    color: #6e7e9c;
+    font-weight: bold;
+    letter-spacing: -0.2px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title {
+    font-size: 16px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title {
+    font-size: 17px;
+}
+
+.fs4 .section_study_korean .component_study .txt_area .title {
+    font-size: 18px;
+}
+
+.fs5 .section_study_korean .component_study .txt_area .title {
+    font-size: 19px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang='ko'] {
+    font-size: 15px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang='ko'] {
+    font-size: 16px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang='ko'] {
+    font-size: 17px;
+}
+
+.fs4 .section_study_korean .component_study .txt_area .title[lang='ko'] {
+    font-size: 18px;
+}
+
+.fs5 .section_study_korean .component_study .txt_area .title[lang='ko'] {
+    font-size: 19px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    font-size: 15px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    font-size: 16px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    font-size: 17px;
+}
+
+.fs4 .section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    font-size: 18px;
+}
+
+.fs5 .section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    font-size: 19px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang='ar'],
+.section_study_korean .component_study .txt_area .title[lang='fe'] {
+    font-size: 15px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang='ar'],
+.fs2 .section_study_korean .component_study .txt_area .title[lang='fe'] {
+    font-size: 16px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang='ar'],
+.fs3 .section_study_korean .component_study .txt_area .title[lang='fe'] {
+    font-size: 17px;
+}
+
+.fs4 .section_study_korean .component_study .txt_area .title[lang='ar'],
+.fs4 .section_study_korean .component_study .txt_area .title[lang='fe'] {
+    font-size: 18px;
+}
+
+.fs5 .section_study_korean .component_study .txt_area .title[lang='ar'],
+.fs5 .section_study_korean .component_study .txt_area .title[lang='fe'] {
+    font-size: 19px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang='my'],
+.section_study_korean .component_study .txt_area .title[lang='kh'] {
+    font-size: 13px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang='my'],
+.fs2 .section_study_korean .component_study .txt_area .title[lang='kh'] {
+    font-size: 14px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang='my'],
+.fs3 .section_study_korean .component_study .txt_area .title[lang='kh'] {
+    font-size: 15px;
+}
+
+.fs4 .section_study_korean .component_study .txt_area .title[lang='my'],
+.fs4 .section_study_korean .component_study .txt_area .title[lang='kh'] {
+    font-size: 16px;
+}
+
+.fs5 .section_study_korean .component_study .txt_area .title[lang='my'],
+.fs5 .section_study_korean .component_study .txt_area .title[lang='kh'] {
+    font-size: 17px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title {
+    line-height: 21px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title {
+    line-height: 22px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang='ko'] {
+    line-height: 20px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang='ko'] {
+    line-height: 21px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang='ko'] {
+    line-height: 22px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    line-height: 22px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    line-height: 23px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang^='zh'] {
+    line-height: 24px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang='ar'],
+.section_study_korean .component_study .txt_area .title[lang='fe'] {
+    line-height: 26px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang='ar'],
+.fs2 .section_study_korean .component_study .txt_area .title[lang='fe'] {
+    line-height: 27px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang='ar'],
+.fs3 .section_study_korean .component_study .txt_area .title[lang='fe'] {
+    line-height: 28px;
+}
+
+.section_study_korean .component_study .txt_area .title[lang='my'],
+.section_study_korean .component_study .txt_area .title[lang='kh'] {
+    line-height: 24px;
+}
+
+.fs2 .section_study_korean .component_study .txt_area .title[lang='my'],
+.fs2 .section_study_korean .component_study .txt_area .title[lang='kh'] {
+    line-height: 25px;
+}
+
+.fs3 .section_study_korean .component_study .txt_area .title[lang='my'],
+.fs3 .section_study_korean .component_study .txt_area .title[lang='kh'] {
+    line-height: 26px;
+}
+
+.section_study_korean .component_study .text {
+    margin-top: 4px;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: bold;
+    letter-spacing: -0.34px;
+    color: #222;
+}
+
+.fs2 .section_study_korean .component_study .text {
+    font-size: 18px;
+}
+
+.fs3 .section_study_korean .component_study .text {
+    font-size: 19px;
+}
+
+.fs4 .section_study_korean .component_study .text {
+    font-size: 20px;
+}
+
+.fs5 .section_study_korean .component_study .text {
+    font-size: 21px;
+}
+
+.section_study_korean .component_study .text[lang='ko'] {
+    font-size: 17px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang='ko'] {
+    font-size: 18px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang='ko'] {
+    font-size: 19px;
+}
+
+.fs4 .section_study_korean .component_study .text[lang='ko'] {
+    font-size: 20px;
+}
+
+.fs5 .section_study_korean .component_study .text[lang='ko'] {
+    font-size: 21px;
+}
+
+.section_study_korean .component_study .text[lang^='zh'] {
+    font-size: 19px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang^='zh'] {
+    font-size: 20px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang^='zh'] {
+    font-size: 21px;
+}
+
+.fs4 .section_study_korean .component_study .text[lang^='zh'] {
+    font-size: 22px;
+}
+
+.fs5 .section_study_korean .component_study .text[lang^='zh'] {
+    font-size: 23px;
+}
+
+.section_study_korean .component_study .text[lang='ar'],
+.section_study_korean .component_study .text[lang='fe'] {
+    font-size: 19px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang='ar'],
+.fs2 .section_study_korean .component_study .text[lang='fe'] {
+    font-size: 20px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang='ar'],
+.fs3 .section_study_korean .component_study .text[lang='fe'] {
+    font-size: 21px;
+}
+
+.fs4 .section_study_korean .component_study .text[lang='ar'],
+.fs4 .section_study_korean .component_study .text[lang='fe'] {
+    font-size: 22px;
+}
+
+.fs5 .section_study_korean .component_study .text[lang='ar'],
+.fs5 .section_study_korean .component_study .text[lang='fe'] {
+    font-size: 23px;
+}
+
+.section_study_korean .component_study .text[lang='my'],
+.section_study_korean .component_study .text[lang='kh'] {
+    font-size: 17px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang='my'],
+.fs2 .section_study_korean .component_study .text[lang='kh'] {
+    font-size: 18px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang='my'],
+.fs3 .section_study_korean .component_study .text[lang='kh'] {
+    font-size: 19px;
+}
+
+.fs4 .section_study_korean .component_study .text[lang='my'],
+.fs4 .section_study_korean .component_study .text[lang='kh'] {
+    font-size: 20px;
+}
+
+.fs5 .section_study_korean .component_study .text[lang='my'],
+.fs5 .section_study_korean .component_study .text[lang='kh'] {
+    font-size: 21px;
+}
+
+.fs2 .section_study_korean .component_study .text {
+    line-height: 26px;
+}
+
+.fs3 .section_study_korean .component_study .text {
+    line-height: 27px;
+}
+
+.section_study_korean .component_study .text[lang='ko'] {
+    line-height: 25px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang='ko'] {
+    line-height: 26px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang='ko'] {
+    line-height: 27px;
+}
+
+.section_study_korean .component_study .text[lang^='zh'] {
+    line-height: 25px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang^='zh'] {
+    line-height: 26px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang^='zh'] {
+    line-height: 27px;
+}
+
+.section_study_korean .component_study .text[lang='ar'],
+.section_study_korean .component_study .text[lang='fe'] {
+    line-height: 30px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang='ar'],
+.fs2 .section_study_korean .component_study .text[lang='fe'] {
+    line-height: 31px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang='ar'],
+.fs3 .section_study_korean .component_study .text[lang='fe'] {
+    line-height: 32px;
+}
+
+.section_study_korean .component_study .text[lang='my'],
+.section_study_korean .component_study .text[lang='kh'] {
+    line-height: 32px;
+}
+
+.fs2 .section_study_korean .component_study .text[lang='my'],
+.fs2 .section_study_korean .component_study .text[lang='kh'] {
+    line-height: 33px;
+}
+
+.fs3 .section_study_korean .component_study .text[lang='my'],
+.fs3 .section_study_korean .component_study .text[lang='kh'] {
+    line-height: 34px;
+}
+
+.section_study_korean .component_study .translation {
+    margin-top: 4px;
+    font-size: 17px;
+    line-height: 23px;
+    color: #888;
+}
+
+.fs2 .section_study_korean .component_study .translation {
+    font-size: 18px;
+}
+
+.fs3 .section_study_korean .component_study .translation {
+    font-size: 19px;
+}
+
+.fs4 .section_study_korean .component_study .translation {
+    font-size: 20px;
+}
+
+.fs5 .section_study_korean .component_study .translation {
+    font-size: 21px;
+}
+
+.section_study_korean .component_study .translation[lang='ko'] {
+    font-size: 17px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang='ko'] {
+    font-size: 18px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang='ko'] {
+    font-size: 19px;
+}
+
+.fs4 .section_study_korean .component_study .translation[lang='ko'] {
+    font-size: 20px;
+}
+
+.fs5 .section_study_korean .component_study .translation[lang='ko'] {
+    font-size: 21px;
+}
+
+.section_study_korean .component_study .translation[lang^='zh'] {
+    font-size: 15px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang^='zh'] {
+    font-size: 16px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang^='zh'] {
+    font-size: 17px;
+}
+
+.fs4 .section_study_korean .component_study .translation[lang^='zh'] {
+    font-size: 18px;
+}
+
+.fs5 .section_study_korean .component_study .translation[lang^='zh'] {
+    font-size: 19px;
+}
+
+.section_study_korean .component_study .translation[lang='ar'],
+.section_study_korean .component_study .translation[lang='fe'] {
+    font-size: 15px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang='ar'],
+.fs2 .section_study_korean .component_study .translation[lang='fe'] {
+    font-size: 16px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang='ar'],
+.fs3 .section_study_korean .component_study .translation[lang='fe'] {
+    font-size: 17px;
+}
+
+.fs4 .section_study_korean .component_study .translation[lang='ar'],
+.fs4 .section_study_korean .component_study .translation[lang='fe'] {
+    font-size: 18px;
+}
+
+.fs5 .section_study_korean .component_study .translation[lang='ar'],
+.fs5 .section_study_korean .component_study .translation[lang='fe'] {
+    font-size: 19px;
+}
+
+.section_study_korean .component_study .translation[lang='my'],
+.section_study_korean .component_study .translation[lang='kh'] {
+    font-size: 13px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang='my'],
+.fs2 .section_study_korean .component_study .translation[lang='kh'] {
+    font-size: 14px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang='my'],
+.fs3 .section_study_korean .component_study .translation[lang='kh'] {
+    font-size: 15px;
+}
+
+.fs4 .section_study_korean .component_study .translation[lang='my'],
+.fs4 .section_study_korean .component_study .translation[lang='kh'] {
+    font-size: 16px;
+}
+
+.fs5 .section_study_korean .component_study .translation[lang='my'],
+.fs5 .section_study_korean .component_study .translation[lang='kh'] {
+    font-size: 17px;
+}
+
+.fs2 .section_study_korean .component_study .translation {
+    line-height: 24px;
+}
+
+.fs3 .section_study_korean .component_study .translation {
+    line-height: 25px;
+}
+
+.section_study_korean .component_study .translation[lang='ko'] {
+    line-height: 23px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang='ko'] {
+    line-height: 24px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang='ko'] {
+    line-height: 25px;
+}
+
+.section_study_korean .component_study .translation[lang^='zh'] {
+    line-height: 21px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang^='zh'] {
+    line-height: 22px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang^='zh'] {
+    line-height: 23px;
+}
+
+.section_study_korean .component_study .translation[lang='ar'],
+.section_study_korean .component_study .translation[lang='fe'] {
+    line-height: 25px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang='ar'],
+.fs2 .section_study_korean .component_study .translation[lang='fe'] {
+    line-height: 26px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang='ar'],
+.fs3 .section_study_korean .component_study .translation[lang='fe'] {
+    line-height: 27px;
+}
+
+.section_study_korean .component_study .translation[lang='my'],
+.section_study_korean .component_study .translation[lang='kh'] {
+    line-height: 23px;
+}
+
+.fs2 .section_study_korean .component_study .translation[lang='my'],
+.fs2 .section_study_korean .component_study .translation[lang='kh'] {
+    line-height: 24px;
+}
+
+.fs3 .section_study_korean .component_study .translation[lang='my'],
+.fs3 .section_study_korean .component_study .translation[lang='kh'] {
+    line-height: 25px;
+}
+
+.section_study_korean .component_study .source {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #999;
+}
+
+.section_study_korean .link_source {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-top: 12px;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.32px;
+    color: #8f8f8f;
+}
+
+.section_study_korean .img_source {
+    overflow: hidden;
+    position: relative;
+    width: 22px;
+    height: 22px;
+    -webkit-border-radius: 26px;
+    border-radius: 26px;
+    background-color: #d8d8d8;
+    background-image: url("https://ssl.pstatic.net/dicimg/banner/image/css/logo_language_school.png");
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center;
+}
+
+.section_study_korean .img_source:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    content: '';
+}
+
+.section_study_korean .img_source+.text_source {
+    padding-left: 6px;
+}
+
+.section_study_korean .img_source.vkorean {
+    background-image: url("https://ssl.pstatic.net/dicimg/banner/image/css/logo_vkorean.png");
+}
+
+.section_study_korean .img_source.talktomin {
+    background-image: url("https://ssl.pstatic.net/dicimg/banner/image/css/logo_talktomin.png");
+}
+
+.section_study_korean .text_source {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.component_wrap {
+    overflow: hidden;
+    padding: 0 16px;
+    background-color: white;
+}
+
+.component_wrap dictbanner {
+    display: block;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study {
+    padding-right: 5px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    background-color: #edf0f2;
+    content: '';
+}
+
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study {
+    padding-left: 5px;
+}
+
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    background-color: #edf0f2;
+    content: '';
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    width: 50%;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .translation,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .translation,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .translation,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .translation {
+    display: none;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area {
+    padding-top: 12px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title,
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title,
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title,
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title {
+    font-size: 15px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title,
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title,
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title,
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title {
+    font-size: 16px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title,
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title,
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title,
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title {
+    font-size: 17px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title,
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title,
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title,
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title {
+    font-size: 18px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    font-size: 14px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    font-size: 15px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    font-size: 16px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    font-size: 17px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    font-size: 18px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    font-size: 14px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    font-size: 15px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    font-size: 16px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    font-size: 17px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    font-size: 18px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    font-size: 14px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    font-size: 15px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    font-size: 16px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    font-size: 17px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    font-size: 18px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    font-size: 12px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    font-size: 13px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    font-size: 14px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    font-size: 15px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    font-size: 16px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title,
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title,
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title,
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title {
+    line-height: 23px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title,
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title,
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title,
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title {
+    line-height: 24px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    line-height: 20px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    line-height: 21px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ko'] {
+    line-height: 22px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    line-height: 22px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    line-height: 23px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang^='zh'] {
+    line-height: 24px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    line-height: 26px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    line-height: 27px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='fe'] {
+    line-height: 28px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    line-height: 24px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    line-height: 25px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .txt_area .title[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .txt_area .title[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .txt_area .title[lang='kh'] {
+    line-height: 26px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text {
+    height: 23px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 16px;
+    line-height: 23px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text,
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text,
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text,
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text {
+    font-size: 17px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text,
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text,
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text,
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text {
+    font-size: 18px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text,
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text,
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text,
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text {
+    font-size: 19px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text,
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text,
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text,
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text {
+    font-size: 20px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    font-size: 16px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    font-size: 17px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    font-size: 18px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    font-size: 19px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    font-size: 20px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    font-size: 16px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    font-size: 17px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    font-size: 18px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    font-size: 19px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    font-size: 20px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    font-size: 16px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    font-size: 17px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    font-size: 18px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    font-size: 19px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    font-size: 20px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    font-size: 14px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    font-size: 15px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    font-size: 16px;
+}
+
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.fs4 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    font-size: 17px;
+}
+
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.fs5 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    font-size: 18px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text,
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text,
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text,
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text {
+    line-height: 24px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text,
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text,
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text,
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text {
+    line-height: 25px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    line-height: 23px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    line-height: 24px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ko'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ko'] {
+    line-height: 25px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    line-height: 22px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    line-height: 23px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang^='zh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang^='zh'] {
+    line-height: 24px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    line-height: 26px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    line-height: 27px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='fe'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='ar'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='fe'] {
+    line-height: 28px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    line-height: 24px;
+}
+
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.fs2 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    line-height: 25px;
+}
+
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .text[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .text[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .text[lang='kh'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='my'],
+.fs3 .component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .text[lang='kh'] {
+    line-height: 26px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .link_source,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .link_source,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .link_source,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .link_source {
+    padding-top: 9px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .img_area .play_time,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .img_area .play_time,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .img_area .play_time,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .img_area .play_time {
+    right: 8px;
+    bottom: 8px;
+}
+
+.component_wrap dictbanner:nth-child(2):nth-last-child(2) .component_study .img.video:after,
+.component_wrap dictbanner:nth-child(3):nth-last-child(1) .component_study .img.video:after,
+.component_wrap dictbanner:nth-child(1):nth-last-child(2) .component_study .img.video:after,
+.component_wrap dictbanner:nth-child(2):nth-last-child(1) .component_study .img.video:after {
+    left: 8px;
+    bottom: 8px;
+    background-position: -33px -36px;
+    width: 30px;
+    height: 30px;
+}
+
+.banner_aside_card {
+    display: block;
+}
+
+.banner_aside_card.size_250x292 .img {
+    width: 250px;
+    height: 292px;
+}
+
+.banner_aside_card.size_251x95 .img {
+    width: 251px;
+    height: 95px;
+}
+
+/* 추천! 오디오 클립 */
+.section_title_link {
+    display: block;
+    position: relative;
+}
+
+.section_title_link:after {
+    position: absolute;
+    right: 15px;
+    bottom: 20px;
+    background-position: -124px -44px;
+    width: 5px;
+    height: 10px;
+    content: '';
+}
+
+.section_audioclip {
+    position: relative;
+    margin: 8px 0 0;
+    padding-top: 0;
+    border-top: 0;
+    background: none;
+}
+
+.section_audioclip .section_title {
+    padding-top: 8px;
+    border-bottom: none;
+    min-height: 20px;
+    padding: 16px 15px 13px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #444;
+}
+
+.component_audioclip {
+    padding-bottom: 16px;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.component_audioclip .item {
+    display: inline-block;
+    background: #fff;
+    white-space: normal;
+    vertical-align: top;
+    width: 150px;
+    height: 190px;
+    margin-left: 4px;
+}
+
+.component_audioclip .item .link {
+    display: block;
+    position: relative;
+}
+
+.component_audioclip .item .thumb {
+    position: relative;
+    width: 100%;
+    height: 97px;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.component_audioclip .item .thumb:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    content: '';
+}
+
+.component_audioclip .item .ico_video,
+.component_audioclip .item .ico_audio {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    content: '';
+    color: transparent;
+}
+
+.component_audioclip .item .ico_audio {
+    background-position: 0px -36px;
+    width: 31px;
+    height: 31px;
+}
+
+.component_audioclip .item .ico_video {
+    background-position: -33px -36px;
+    width: 30px;
+    height: 30px;
+}
+
+.component_audioclip .item .time {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    min-width: 44px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.component_audioclip .item .time:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    content: '';
+}
+
+.component_audioclip .item .desc {
+    padding: 14px 10px;
+}
+
+.component_audioclip .item .desc .title {
+    height: 40px;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 5px;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    color: #000;
+}
+
+.component_audioclip .item .desc .group {
+    display: block;
+    overflow: hidden;
+    max-height: 15px;
+    margin-top: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #8292b4;
+}
+
+.component_audioclip .item:first-child {
+    margin-left: 15px;
+}
+
+.component_audioclip .item:last-child {
+    margin-right: 15px;
+}
+
+.banner_common_openpro {
+    display: block;
+    text-decoration: none;
+    font-family: NanumSquareDST, sans-serif;
+}
+
+.banner_common_openpro [lang="zh"] {
+    font-family: 'Microsoft Yahei', simsun, sans-serif;
+}
+
+.banner_common_openpro [lang="ja"] {
+    font-family: 'Hiragino Sans', YuGothic, Meiryo, 'MS Pgothic', sans-serif;
+}
+
+.banner_common_openpro .banner_inner {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    max-width: 320px;
+    min-height: 100px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.banner_common_openpro .banner_image {
+    -webkit-box-flex: 0;
+    -webkit-flex: none;
+    -ms-flex: none;
+    flex: none;
+    width: 60px;
+    height: 60px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
+.banner_common_openpro .banner_text {
+    margin: 0 0 0 18px;
+}
+
+.banner_common_openpro .banner_text_main {
+    font-size: 18px !important;
+    font-weight: bold;
+    line-height: 24px;
+    letter-spacing: -0.47px;
+    color: #333;
+}
+
+.banner_common_openpro .banner_text_main+.banner_text_sub {
+    margin-top: 2px;
+}
+
+.banner_common_openpro .banner_text_sub {
+    font-size: 14px !important;
+    font-weight: bold;
+    line-height: 16px;
+    letter-spacing: -0.44px;
+    color: #555;
+}
+
+.banner_common_openpro .banner_text_sub+.banner_text_main {
+    margin-top: 4px;
+}
+
+.banner_common_openpro.type_logo .banner_inner {
+    display: block;
+    padding: 14px 20px;
+}
+
+.banner_common_openpro.type_logo .banner_text {
+    margin-left: 0;
+}
+
+.banner_common_openpro.type_logo .banner_text_main {
+    font-size: 20px !important;
+    line-height: 26px;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.banner_common_openpro.type_logo .banner_text_main strong {
+    font-weight: 800;
+}
+
+.banner_common_openpro.type_logo .banner_text_main+.banner_text_sub {
+    margin-top: 5px;
+}
+
+.banner_common_openpro.type_logo .banner_text_main+.banner_logo,
+.banner_common_openpro.type_logo .banner_text_main+.banner_logo_text {
+    margin-top: 7px;
+}
+
+.banner_common_openpro.type_logo .banner_text_sub {
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.banner_common_openpro.type_logo .banner_text_sub+.banner_text_main {
+    margin-top: 3px;
+}
+
+.banner_common_openpro .banner_logo {
+    width: 78px;
+    height: 15px;
+    margin: 0 auto;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_openpro.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
+.banner_common_openpro .banner_logo+.banner_text_main {
+    margin-top: 5px;
+}
+
+.banner_common_openpro .banner_logo.accentia_a {
+    width: 81px;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/Accentia_Primary_Logo_Color_Negative@2x-8.png);
+}
+
+.banner_common_openpro .banner_logo.accentia_b {
+    width: 81px;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/Accentia_Primary_Logo_Color_Positive@2x-8.png);
+}
+
+.banner_common_openpro .banner_logo.accentia_c {
+    width: 81px;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/Accentia_Primary_Logo_Mono_BK@2x-8.png);
+}
+
+.banner_common_openpro .banner_logo.accentia_d {
+    width: 81px;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/Accentia_Primary_Logo_Mono_WH@2x-8.png);
+}
+
+.banner_common_openpro .banner_logo_text {
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 15px;
+    letter-spacing: -0.3px;
+    text-align: center;
+    color: #333;
+}
+
+.banner_common_openpro .banner_logo_text.navy {
+    color: #032164;
+}
+
+.banner_common_openpro .banner_logo_text.navy:before {
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_n_navy.png);
+}
+
+.banner_common_openpro .banner_logo_text:before {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_n_black.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: contain;
+    background-size: contain;
+    vertical-align: top;
+    content: "";
+}
+
+.banner_common_openpro .banner_logo_text+.banner_text_main {
+    margin-top: 5px;
+}
+
+.banner_common_openpro .logo_text {
+    display: inline-block;
+    margin-top: 1px;
+    vertical-align: top;
+}
+
+.banner_common_conversation {
+    display: block;
+    text-decoration: none;
+}
+
+.banner_common_conversation .banner_inner {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 320px;
+    height: 100px;
+    margin: 0 auto;
+    padding: 16px 12px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.banner_common_conversation .banner_image {
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.banner_common_conversation .banner_text {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: -0.47px;
+    color: #333;
+}
+
+.banner_common_conversation .banner_text+.banner_logo {
+    margin-top: 7px;
+}
+
+.banner_common_conversation .banner_text_sub {
+    font-size: 14px;
+}
+
+.banner_common_conversation .banner_text_sub+.banner_text_main {
+    padding-top: 4px;
+}
+
+.banner_common_conversation .point {
+    padding-top: 5px;
+}
+
+.banner_common_conversation .banner_logo {
+    width: 158px;
+    height: 19px;
+    margin: 0 auto;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_relist_ver2.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
+.banner_common_conversation .banner_logo.review {
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_review_ver2.png);
+}
+
+.banner_common_conversation .banner_logo+.banner_text {
+    padding-top: 7px;
+}
+
+.banner_common_conversation.type_img .banner_inner {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.banner_common_conversation.type_img .banner_text {
+    margin: 0 auto;
+}
+
+.banner_common_quiz {
+    display: block;
+    text-decoration: none;
+    font-family: NanumSquareDST, sans-serif;
+}
+
+.banner_common_quiz [lang="zh"] {
+    font-family: 'Microsoft Yahei', simsun, sans-serif;
+}
+
+.banner_common_quiz [lang="ja"] {
+    font-family: 'Hiragino Sans', YuGothic, Meiryo, 'MS Pgothic', sans-serif;
+}
+
+.banner_common_quiz .banner_inner {
+    position: relative;
+    width: 320px;
+    height: 100px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.banner_common_quiz .banner_text {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 16px;
+    letter-spacing: -0.3px;
+    color: #333;
+}
+
+.banner_common_quiz .banner_wordquiz {
+    margin-top: 7px;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", NanumGothic, sans-serif;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 24px;
+    color: #032164;
+}
+
+.banner_common_quiz .banner_wordquiz.gray .letter.hide:after {
+    background-color: #d8dce3;
+}
+
+.banner_common_quiz .letter {
+    position: relative;
+}
+
+.banner_common_quiz .letter.hide {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    vertical-align: top;
+}
+
+.banner_common_quiz .letter.hide:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 24px;
+    margin: auto;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #c9dcff;
+    content: "";
+}
+
+.banner_common_quiz .banner_logo_text {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 15px;
+    letter-spacing: -0.3px;
+    text-align: center;
+    color: #333;
+}
+
+.banner_common_quiz .banner_logo_text.navy {
+    color: #032164;
+}
+
+.banner_common_quiz .banner_logo_text.navy:before {
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_n_navy.png);
+}
+
+.banner_common_quiz .banner_logo_text:before {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-image: url(https://ssl.pstatic.net/dicimg/banner/image/css/logo_n_black.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: contain;
+    background-size: contain;
+    vertical-align: top;
+    content: "";
+}
+
+.banner_common_quiz .banner_logo_text+.banner_text_main {
+    margin-top: 5px;
+}
+
+.banner_common_quiz .logo_text {
+    display: inline-block;
+    margin-top: 1px;
+    vertical-align: top;
+}
+
+.banner_pron {
+    display: block;
+    text-decoration: none;
+    font-family: NanumSquareRound, sans-serif;
+}
+
+.banner_pron .banner_inner {
+    position: relative;
+    padding: 50px 0 16px;
+    text-align: center;
+}
+
+.banner_pron .bg {
+    position: absolute;
+    top: 0;
+    right: -100px;
+    left: -100px;
+    margin: 0 auto;
+}
+
+.banner_pron .banner_text_main {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 24px;
+    letter-spacing: -0.55px;
+    color: #fff;
+}
+
+.banner_pron .banner_text_sub {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: -0.27px;
+    color: #fff;
+}
+
+.banner_pron .btn_share {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 7px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: -0.3px;
+    color: #fff;
+    -webkit-border-radius: 14px;
+    border-radius: 14px;
+    background-color: rgba(102, 184, 254, 0.3);
+}

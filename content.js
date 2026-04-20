@@ -560,40 +560,42 @@ const renderPanel = () => {
         (sound ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">음</span> <strong>${sound}</strong></div>` : "") +
         (meaning ? `<div style="font-size:15px;"><span style="font-size:11px;color:#999;">뜻</span> <strong>${meaning}</strong></div>` : "");
 
-    // Position panel just to the left of "한자 구성원리" heading
-    requestAnimationFrame(() => {
-        let targetEl = null;
-        const candidates = document.querySelectorAll("h2, h3, h4, h5, dt, strong, span, p, div");
-        for (const el of candidates) {
-            const text = el.childNodes.length
-                ? Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join("").trim()
-                : el.textContent.trim();
-            if (text === "한자 구성원리") { targetEl = el; break; }
-        }
-        if (!targetEl) {
-            // fallback: any element whose trimmed text starts with "한자 구성원리"
-            for (const el of candidates) {
-                if (el.textContent.trim().startsWith("한자 구성원리")) { targetEl = el; break; }
-            }
-        }
+    positionPanel();
+};
 
-        const panelEl = document.getElementById(PANEL_ID);
-        if (!panelEl) return;
+const positionPanel = () => {
+    const panelEl = document.getElementById(PANEL_ID);
+    if (!panelEl) return;
 
-        if (targetEl) {
-            const rect = targetEl.getBoundingClientRect();
-            const panelRect = panelEl.getBoundingClientRect();
-            panelEl.style.right = "";
-            panelEl.style.transform = "";
-            panelEl.style.left = Math.max(0, rect.left - panelRect.width - 12) + "px";
-            panelEl.style.top = Math.max(0, rect.top) + "px";
-        } else {
-            panelEl.style.left = "";
-            panelEl.style.right = "16px";
-            panelEl.style.top = "50%";
-            panelEl.style.transform = "translateY(-50%)";
-        }
-    });
+    const contentEl = document.getElementById("content");
+    if (!contentEl) {
+        panelEl.style.left = "";
+        panelEl.style.right = "16px";
+        panelEl.style.top = "16px";
+        panelEl.style.transform = "";
+        return;
+    }
+
+    const rect = contentEl.getBoundingClientRect();
+    const panelRect = panelEl.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    const left = rect.left - panelRect.width - 12;
+    const top = Math.max(8, Math.min(rect.top, vh - panelRect.height - 8));
+
+    // If panel overflows the left edge of the viewport, fall back to inside left
+    if (left < 0) {
+        panelEl.style.right = "";
+        panelEl.style.left = "8px";
+        panelEl.style.top = top + "px";
+        panelEl.style.transform = "";
+        return;
+    }
+
+    panelEl.style.right = "";
+    panelEl.style.transform = "";
+    panelEl.style.left = left + "px";
+    panelEl.style.top = top + "px";
 };
 
 const startFloatingPanel = () => {
@@ -616,6 +618,111 @@ const startFloatingPanel = () => {
     setTimeout(() => {
         if (panelMutationObserver) { panelMutationObserver.disconnect(); panelMutationObserver = null; }
     }, 6000);
+
+    window.addEventListener("scroll", positionPanel, { passive: true });
+    window.addEventListener("resize", positionPanel, { passive: true });
+};
+
+// ── 획순보기 repositioning ──────────────────────────────────────────────────
+
+let strokeObserver = null;
+
+const positionStrokeOverlay = () => {
+    const overlay = document.getElementById("hanzi-ext-stroke");
+    if (!overlay) return;
+
+    const contentEl = document.getElementById("content");
+    if (!contentEl) {
+        overlay.style.right = "16px";
+        overlay.style.left = "auto";
+        overlay.style.top = "70vh";
+        return;
+    }
+
+    const rect = contentEl.getBoundingClientRect();
+    const overlayRect = overlay.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const left = rect.right + 12;
+    const top = Math.max(8, Math.min(vh * 0.7, vh - overlayRect.height - 8));
+
+    if (left + overlayRect.width > vw) {
+        overlay.style.left = "auto";
+        overlay.style.right = "8px";
+    } else {
+        overlay.style.right = "auto";
+        overlay.style.left = left + "px";
+    }
+    overlay.style.top = top + "px";
+};
+
+const pinStrokeOverlay = (overlay) => {
+    overlay.id = "hanzi-ext-stroke";
+    document.body.appendChild(overlay);
+    overlay.style.display = "block";
+    overlay.style.position = "fixed";
+    overlay.style.bottom = "auto";
+    overlay.style.zIndex = "2147483646";
+    const closeBtn = overlay.querySelector(".btn_close");
+    if (closeBtn) closeBtn.style.display = "none";
+    positionStrokeOverlay();
+    window.addEventListener("scroll", positionStrokeOverlay, { passive: true });
+    window.addEventListener("resize", positionStrokeOverlay, { passive: true });
+};
+
+const startStrokeWatcher = () => {
+    if (strokeObserver) {
+        strokeObserver.disconnect();
+        strokeObserver = null;
+    }
+
+    const getStrokeSvgUrl = () => {
+        const otherBtn = document.querySelector(".myStrokePlayBtn");
+        if (otherBtn) {
+            const svgurl = otherBtn.getAttribute("svgurl");
+            if (svgurl) return svgurl;
+        }
+        const playBtn = document.querySelector(".myFontStrokePlayBtn");
+        if (playBtn) {
+            const dataSrc = playBtn.getAttribute("data-src");
+            if (dataSrc) return dataSrc.startsWith("http") ? dataSrc : "https://ssl.pstatic.net/dicimg" + dataSrc;
+        }
+        return null;
+    };
+
+    const trySetup = () => {
+        // Already pinned and visible — no need to redo
+        if (document.getElementById("hanzi-ext-stroke")) return;
+
+        const playBtn = document.querySelector(".myFontStrokePlayBtn");
+        if (!playBtn) return;
+        const overlay = playBtn.querySelector("._ly_hanja_stroke");
+        if (!overlay) return;
+
+        // Hide the static stroke images section
+        const section = document.querySelector(".section_hanja_info");
+        if (section) section.style.display = "none";
+
+        // Pin first so the iframe is visible and has real dimensions before src is set.
+        // Setting src on a hidden iframe can cause browsers to throttle/defer the animation.
+        pinStrokeOverlay(overlay);
+
+        const svgUrl = getStrokeSvgUrl();
+        const iframe = overlay.querySelector("iframe");
+        if (iframe && svgUrl) {
+            iframe.addEventListener("load", () => {
+                iframe.contentWindow.postMessage({ request: "play" }, "*");
+            }, { once: true });
+            iframe.src = svgUrl;
+        }
+    };
+
+    trySetup();
+    // Keep observer running — the SPA does a full body re-render on initial page load,
+    // wiping our pinned overlay. Re-pin after it stabilises.
+    strokeObserver = new MutationObserver(trySetup);
+    strokeObserver.observe(document.documentElement, { childList: true, subtree: true });
 };
 
 // ── page init ───────────────────────────────────────────────────────────────
@@ -651,6 +758,7 @@ const initPageLogic = async () => {
 
     startDescriptionScroller();
     startFloatingPanel();
+    startStrokeWatcher();
 };
 
 const scheduleInit = () => {
