@@ -21,7 +21,7 @@
     "content_scripts": [
         {
             "matches": ["https://hanja.dict.naver.com/*"],
-            "js": ["content.js"]
+            "js": ["data/trad-to-simp.js", "content.js"]
         }
     ]
 }

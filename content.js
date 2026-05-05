@@ -14,6 +14,9 @@ let activeSearchTimer = null;
 let activeScrollTimer = null;
 let activeScrollObserver = null;
 let lastHandledUrl = "";
+let tradToSimpMap = Object.create(null);
+let simplifiedPinyinMap = Object.create(null);
+let simplifiedCharSet = new Set();
 
 const normalizeEntry = (value) =>
     String(value ?? "")
@@ -527,13 +530,63 @@ const extractSoundMeaning = (currentHanzi) => {
     return { sound, meaning };
 };
 
+const loadSimplifiedVariantData = () => {
+    try {
+        const payload = globalThis.__HANZI_TRAD_TO_SIMP_DATA__;
+        tradToSimpMap = payload?.map && typeof payload.map === "object" ? payload.map : Object.create(null);
+        simplifiedPinyinMap = payload?.pinyin && typeof payload.pinyin === "object" ? payload.pinyin : Object.create(null);
+        simplifiedCharSet = new Set(typeof payload?.simplifiedChars === "string" ? Array.from(payload.simplifiedChars) : []);
+    } catch (error) {
+        console.warn("[Hanzi Ext] Failed to initialize simplified variant data:", error);
+        tradToSimpMap = Object.create(null);
+        simplifiedPinyinMap = Object.create(null);
+        simplifiedCharSet = new Set();
+    }
+};
+
+const getSimplifiedVariants = (hanzi) => {
+    const target = normalizeEntry(hanzi);
+    if (!target) {
+        return [];
+    }
+
+    const mapped = Array.isArray(tradToSimpMap[target]) ? tradToSimpMap[target].map(normalizeEntry).filter(Boolean) : [];
+    const variants = mapped.length > 0 ? Array.from(new Set(mapped)) : simplifiedCharSet.has(target) ? [target] : [];
+
+    return variants.map((variant) => {
+        const readings = Array.isArray(simplifiedPinyinMap[variant])
+            ? simplifiedPinyinMap[variant].map(normalizeEntry).filter(Boolean)
+            : [];
+        return {
+            char: variant,
+            pinyin: Array.from(new Set(readings)),
+        };
+    });
+};
+
+const formatSimplifiedVariants = (currentHanzi) => {
+    const variants = getSimplifiedVariants(currentHanzi).filter(({ char }) => char);
+    if (variants.length === 0) {
+        return "";
+    }
+
+    return variants
+        .map(({ char, pinyin }) => (pinyin.length > 0 ? `${char} (${pinyin.join("/")})` : char))
+        .join(", ");
+};
+
+const getDisplaySimplifiedVariants = (currentHanzi) => {
+    return getSimplifiedVariants(currentHanzi).filter(({ char }) => char);
+};
+
 let panelMutationObserver = null;
 
 const renderPanel = () => {
     const currentHanzi = getCurrentHanzi();
     const { sound, meaning } = extractSoundMeaning(currentHanzi);
+    const simplifiedVariants = formatSimplifiedVariants(currentHanzi);
 
-    if (!currentHanzi && !sound && !meaning) return;
+    if (!currentHanzi && !sound && !meaning && !simplifiedVariants) return;
 
     if (currentHanzi) {
         chrome.storage.local.get({ activePresetId: "default", lastHanziMap: {} }, (data) => {
@@ -561,7 +614,8 @@ const renderPanel = () => {
     panel.innerHTML =
         `<div style="font-size:38px;font-weight:bold;color:#d62828;line-height:1.1;margin-bottom:8px;">${currentHanzi || ""}</div>` +
         (sound ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">음</span> <strong>${sound}</strong></div>` : "") +
-        (meaning ? `<div style="font-size:15px;"><span style="font-size:11px;color:#999;">뜻</span> <strong>${meaning}</strong></div>` : "");
+        (meaning ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">뜻</span> <strong>${meaning}</strong></div>` : "") +
+        (simplifiedVariants ? `<div style="font-size:15px;"><span style="font-size:11px;color:#999;">간체</span> <strong>${simplifiedVariants}</strong></div>` : "");
 
     positionPanel();
 };
@@ -629,35 +683,130 @@ const startFloatingPanel = () => {
 // ── 획순보기 repositioning ──────────────────────────────────────────────────
 
 let strokeObserver = null;
+const STROKE_HEADER_ID = "hanzi-ext-stroke-header";
 
 const positionStrokeOverlay = () => {
     const overlay = document.getElementById("hanzi-ext-stroke");
-    if (!overlay) return;
+    const header = document.getElementById(STROKE_HEADER_ID);
+    if (!overlay) {
+        if (header) header.remove();
+        return;
+    }
 
     const anchorEl = document.getElementById("aside") || document.getElementById("content");
     if (!anchorEl) {
         overlay.style.right = "16px";
         overlay.style.left = "auto";
         overlay.style.top = "70vh";
+    } else {
+        const rect = anchorEl.getBoundingClientRect();
+        const overlayRect = overlay.getBoundingClientRect();
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+
+        const left = rect.right + 12;
+        const top = Math.max(8, Math.min(vh * 0.7, vh - overlayRect.height - 8));
+
+        if (left + overlayRect.width > vw) {
+            overlay.style.left = "auto";
+            overlay.style.right = "8px";
+        } else {
+            overlay.style.right = "auto";
+            overlay.style.left = left + "px";
+        }
+        overlay.style.top = top + "px";
+    }
+
+    if (!header) return;
+
+    const overlayRect = overlay.getBoundingClientRect();
+    const headerRect = header.getBoundingClientRect();
+    const headerTop = Math.max(8, overlayRect.top - headerRect.height - 8);
+    header.style.left = `${Math.round(overlayRect.left)}px`;
+    header.style.top = `${Math.round(headerTop)}px`;
+    header.style.width = `${Math.round(overlayRect.width)}px`;
+};
+
+const renderStrokeOverlayHeader = (overlay, currentHanzi) => {
+    if (!overlay) return;
+
+    const variants = getDisplaySimplifiedVariants(currentHanzi);
+    const existing = document.getElementById(STROKE_HEADER_ID);
+    if (existing) {
+        existing.remove();
+    }
+
+    if (variants.length === 0) {
         return;
     }
 
-    const rect = anchorEl.getBoundingClientRect();
-    const overlayRect = overlay.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const header = document.createElement("div");
+    header.id = STROKE_HEADER_ID;
+    header.style.cssText = [
+        "position:fixed",
+        "z-index:2147483647",
+        "display:flex",
+        "flex-direction:column",
+        "align-items:center",
+        "justify-content:center",
+        "gap:4px",
+        "padding:12px 12px 8px",
+        "border:2px solid #9ca3af",
+        "border-radius:4px",
+        "box-shadow:0 4px 16px rgba(0,0,0,0.18)",
+        "background:#ffffff",
+        "color:#111111",
+        "font-family:Arial,sans-serif",
+        "text-align:center",
+        "pointer-events:none",
+        "box-sizing:border-box",
+    ].join(";");
 
-    const left = rect.right + 12;
-    const top = Math.max(8, Math.min(vh * 0.7, vh - overlayRect.height - 8));
+    const hanziLabel = document.createElement("div");
+    hanziLabel.style.cssText = [
+        "font-size:14px",
+        "line-height:1.1",
+        "color:#4b5563",
+        "letter-spacing:0.02em",
+        "align-self:flex-start",
+        "text-align:left",
+        "margin-bottom:2px",
+    ].join(";");
+    hanziLabel.textContent = "간체자";
+    header.appendChild(hanziLabel);
 
-    if (left + overlayRect.width > vw) {
-        overlay.style.left = "auto";
-        overlay.style.right = "8px";
-    } else {
-        overlay.style.right = "auto";
-        overlay.style.left = left + "px";
+    const charLine = document.createElement("div");
+    const overlayWidth = Math.max(overlay.getBoundingClientRect().width || 0, overlay.clientWidth || 0);
+    const charFontSize = Math.max(72, Math.min(128, Math.round(overlayWidth * 0.4)));
+    charLine.style.cssText = [
+        `font-size:${charFontSize}px`,
+        "font-weight:400",
+        "line-height:0.95",
+        "color:#111111",
+        "font-family:'KaiTi','STKaiti','Kaiti SC','Kaiti TC','DFKai-SB','BiauKai',serif",
+    ].join(";");
+    charLine.textContent = variants.map(({ char }) => char).join(" / ");
+    header.appendChild(charLine);
+
+    const pinyinValues = Array.from(
+        new Set(
+            variants.flatMap(({ pinyin }) => (Array.isArray(pinyin) ? pinyin : [])).filter(Boolean)
+        )
+    );
+    if (pinyinValues.length > 0) {
+        const pinyinLine = document.createElement("div");
+        const pinyinFontSize = Math.max(20, Math.min(30, Math.round(charFontSize * 0.26)));
+        pinyinLine.style.cssText = [
+            `font-size:${pinyinFontSize}px`,
+            "line-height:1.2",
+            "color:#111111",
+        ].join(";");
+        pinyinLine.textContent = pinyinValues.join(" / ");
+        header.appendChild(pinyinLine);
     }
-    overlay.style.top = top + "px";
+
+    document.body.appendChild(header);
+    positionStrokeOverlay();
 };
 
 const pinStrokeOverlay = (overlay) => {
@@ -669,6 +818,7 @@ const pinStrokeOverlay = (overlay) => {
     overlay.style.zIndex = "2147483646";
     const closeBtn = overlay.querySelector(".btn_close");
     if (closeBtn) closeBtn.style.display = "none";
+    renderStrokeOverlayHeader(overlay, getCurrentHanzi());
     positionStrokeOverlay();
     window.addEventListener("scroll", positionStrokeOverlay, { passive: true });
     window.addEventListener("resize", positionStrokeOverlay, { passive: true });
@@ -800,6 +950,7 @@ new MutationObserver(() => {
 
 const start = async () => {
     await loadHanzis();
+    loadSimplifiedVariantData();
 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", scheduleInit, { once: true });

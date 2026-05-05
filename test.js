@@ -50,6 +50,52 @@ const syncActivePreset = (presets) => {
 const applyPreset = (hanzis, presetId) =>
     chrome.storage.local.set({ hanzis, activePresetId: presetId });
 
+const buildStudyTargetUrl = (entry, hanzis) => {
+    if (entry?.url) return entry.url;
+    const fallbackHanzi = entry?.hanzi || (Array.isArray(hanzis) ? hanzis[0] : "");
+    if (!fallbackHanzi) return "";
+    return `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(fallbackHanzi)}`;
+};
+
+const getStudyButtonLabel = (entry) =>
+    entry?.hanzi ? "마지막 학습 한자로 이동" : "첫 한자로 이동";
+
+let tradToSimpMap = Object.create(null);
+let simplifiedPinyinMap = Object.create(null);
+let simplifiedCharSet = new Set();
+
+const loadSimplifiedVariantData = (payload) => {
+    tradToSimpMap = payload?.map && typeof payload.map === "object" ? payload.map : Object.create(null);
+    simplifiedPinyinMap = payload?.pinyin && typeof payload.pinyin === "object" ? payload.pinyin : Object.create(null);
+    simplifiedCharSet = new Set(typeof payload?.simplifiedChars === "string" ? Array.from(payload.simplifiedChars) : []);
+};
+
+const getSimplifiedVariants = (hanzi) => {
+    const target = String(hanzi ?? "").trim();
+    if (!target) return [];
+
+    const mapped = Array.isArray(tradToSimpMap[target]) ? tradToSimpMap[target].map((value) => String(value).trim()).filter(Boolean) : [];
+    const variants = mapped.length > 0 ? Array.from(new Set(mapped)) : simplifiedCharSet.has(target) ? [target] : [];
+
+    return variants.map((variant) => {
+        const readings = Array.isArray(simplifiedPinyinMap[variant])
+            ? simplifiedPinyinMap[variant].map((value) => String(value).trim()).filter(Boolean)
+            : [];
+        return { char: variant, pinyin: Array.from(new Set(readings)) };
+    });
+};
+
+const formatSimplifiedVariants = (hanzi) => {
+    return getSimplifiedVariants(hanzi)
+        .filter(({ char }) => char)
+        .map(({ char, pinyin }) => (pinyin.length > 0 ? `${char} (${pinyin.join("/")})` : char))
+        .join(", ");
+};
+
+const getDisplaySimplifiedVariants = (hanzi) => {
+    return getSimplifiedVariants(hanzi).filter(({ char }) => char);
+};
+
 // ── test harness ─────────────────────────────────────────────────────────────
 let passed = 0, failed = 0;
 function test(name, fn) {
@@ -175,6 +221,79 @@ test("two presets have isolated last-hanzi entries", () => {
     });
     eq(store.lastHanziMap["c1"].hanzi, "金");
     eq(store.lastHanziMap["c2"].hanzi, "銀");
+});
+
+console.log("\n=== go-to-study fallback ===");
+
+test("button label shows last-study action when history exists", () => {
+    eq(getStudyButtonLabel({ hanzi: "金" }), "마지막 학습 한자로 이동");
+});
+
+test("button label shows first-study action when history is missing", () => {
+    eq(getStudyButtonLabel(null), "첫 한자로 이동");
+});
+
+test("uses last visited url when present", () => {
+    const url = buildStudyTargetUrl({ hanzi: "金", url: "https://hanja.dict.naver.com/entry/123" }, ["火"]);
+    eq(url, "https://hanja.dict.naver.com/entry/123");
+});
+
+test("falls back to entry hanzi when url is missing", () => {
+    const url = buildStudyTargetUrl({ hanzi: "金" }, ["火"]);
+    eq(url, "https://hanja.dict.naver.com/#/search?query=%E9%87%91");
+});
+
+test("falls back to first saved hanzi when no last studied hanzi exists", () => {
+    const url = buildStudyTargetUrl(null, ["火", "水", "木"]);
+    eq(url, "https://hanja.dict.naver.com/#/search?query=%E7%81%AB");
+});
+
+test("returns empty string when neither history nor saved hanzis exist", () => {
+    eq(buildStudyTargetUrl(null, []), "");
+});
+
+console.log("\n=== simplified variant lookup ===");
+
+test("formats simplified variant with pinyin", () => {
+    loadSimplifiedVariantData({
+        map: { "純": ["纯"] },
+        pinyin: { "纯": ["chún"] },
+        simplifiedChars: "纯",
+    });
+    eq(formatSimplifiedVariants("純"), "纯 (chún)");
+});
+
+test("deduplicates mapped simplified variants and pinyin", () => {
+    loadSimplifiedVariantData({
+        map: { "樂": ["乐", "乐"] },
+        pinyin: { "乐": ["lè", "yuè", "lè"] },
+        simplifiedChars: "乐",
+    });
+    const variants = getDisplaySimplifiedVariants("樂");
+    eq(variants.length, 1);
+    eq(variants[0].char, "乐");
+    eq(variants[0].pinyin.join("/"), "lè/yuè");
+});
+
+test("displays simplified data even when the character is unchanged", () => {
+    loadSimplifiedVariantData({
+        map: { "水": ["水"] },
+        pinyin: { "水": ["shuǐ"] },
+        simplifiedChars: "水",
+    });
+    eq(formatSimplifiedVariants("水"), "水 (shuǐ)");
+    eq(getDisplaySimplifiedVariants("水").length, 1);
+});
+
+test("preserves supplementary-plane simplified characters in simplified set", () => {
+    loadSimplifiedVariantData({
+        map: {},
+        pinyin: {},
+        simplifiedChars: "𫷘",
+    });
+    const variants = getSimplifiedVariants("𫷘");
+    eq(variants.length, 1);
+    eq(variants[0].char, "𫷘");
 });
 
 console.log("\n=== activePresetId persistence ===");

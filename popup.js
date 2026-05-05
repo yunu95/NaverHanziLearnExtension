@@ -267,6 +267,22 @@ const parseHanziList = (rawText) =>
         )
     );
 
+const getStudyButtonLabel = (entry) =>
+    entry?.hanzi ? "마지막 학습 한자로 이동" : "첫 한자로 이동";
+
+const buildStudyTargetUrl = (entry, hanzis) => {
+    if (entry?.url) {
+        return entry.url;
+    }
+
+    const fallbackHanzi = entry?.hanzi || (Array.isArray(hanzis) ? hanzis[0] : "");
+    if (!fallbackHanzi) {
+        return "";
+    }
+
+    return `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(fallbackHanzi)}`;
+};
+
 const renderSavedHanzis = () => {
     chrome.storage.local.get({ hanzis: [], activePresetId: null }, (data) => {
         if (Array.isArray(data.hanzis) && data.hanzis.length > 0) {
@@ -292,6 +308,7 @@ const renderSavedHanzis = () => {
 const renderLastHanzi = () => {
     chrome.storage.local.get({ lastHanziMap: {} }, (data) => {
         const entry = (data.lastHanziMap || {})[activePresetId];
+        goToLastHanziButton.textContent = getStudyButtonLabel(entry);
         if (entry && entry.hanzi) {
             lastHanziInfo.textContent = `마지막 학습: ${entry.hanzi}`;
         } else {
@@ -301,13 +318,13 @@ const renderLastHanzi = () => {
 };
 
 goToLastHanziButton.addEventListener("click", () => {
-    chrome.storage.local.get({ lastHanziMap: {} }, (data) => {
+    chrome.storage.local.get({ lastHanziMap: {}, hanzis: [] }, (data) => {
         const entry = (data.lastHanziMap || {})[activePresetId];
-        if (!entry || (!entry.url && !entry.hanzi)) {
-            alert("아직 방문한 한자가 없습니다. 먼저 한자 상세 페이지를 방문하세요.");
+        const url = buildStudyTargetUrl(entry, data.hanzis);
+        if (!url) {
+            alert("학습할 한자가 없습니다. 먼저 한자 목록을 저장하세요.");
             return;
         }
-        const url = entry.url || `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(entry.hanzi)}`;
         chrome.tabs.create({ url });
     });
 });
