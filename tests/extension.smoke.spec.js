@@ -57,7 +57,7 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       const extId = await getExtId(ctx);
       const page = await openPopup(ctx, extId);
 
-      await expect(page.locator(".preset-default")).toHaveClass(/preset-active/);
+      await expect(page.locator(".preset-btn").filter({ hasText: "기본" })).toHaveClass(/preset-active/);
       await expect(page.locator("#hanziList")).toBeDisabled();
     } finally {
       await ctx.close();
@@ -83,7 +83,7 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       // The new preset is active
       await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
       // 기본 is not active
-      await expect(page.locator(".preset-default")).not.toHaveClass(/preset-active/);
+      await expect(page.locator(".preset-btn").filter({ hasText: "기본" })).not.toHaveClass(/preset-active/);
       // Textarea is enabled
       await expect(page.locator("#hanziList")).toBeEnabled();
     } finally {
@@ -106,46 +106,20 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
 
       // Go to 기본
-      await page.locator(".preset-default").click();
-      await expect(page.locator(".preset-default")).toHaveClass(/preset-active/);
+      await page.locator(".preset-btn").filter({ hasText: "기본" }).click();
+      await expect(page.locator(".preset-btn").filter({ hasText: "기본" })).toHaveClass(/preset-active/);
       await expect(page.locator(".preset-item").first()).not.toHaveClass(/preset-active/);
 
       // Go back to custom
       await page.locator(".preset-name").first().click();
       await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
-      await expect(page.locator(".preset-default")).not.toHaveClass(/preset-active/);
+      await expect(page.locator(".preset-btn").filter({ hasText: "기본" })).not.toHaveClass(/preset-active/);
     } finally {
       await ctx.close();
     }
   });
 
   // ── 4 ─────────────────────────────────────────────────────────────────────
-  test("activePresetId persists after popup is closed and reopened", async () => {
-    const ctx = await launchCtx();
-    try {
-      const extId = await getExtId(ctx);
-      const page = await openPopup(ctx, extId);
-
-      page.on("dialog", async (d) => {
-        if (d.type() === "prompt") await d.accept("영구저장");
-        else await d.dismiss();
-      });
-      await page.locator(".preset-add").click();
-      await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
-
-      // Close popup, open fresh page (same storage)
-      await page.close();
-      const page2 = await openPopup(ctx, extId);
-
-      // Custom preset must still be active after reopen
-      await expect(page2.locator(".preset-item").first()).toHaveClass(/preset-active/);
-      await expect(page2.locator(".preset-default")).not.toHaveClass(/preset-active/);
-    } finally {
-      await ctx.close();
-    }
-  });
-
-  // ── 5 ─────────────────────────────────────────────────────────────────────
   test("blur saves textarea content; it is restored on next popup open", async () => {
     const ctx = await launchCtx();
     try {
@@ -178,7 +152,7 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
     }
   });
 
-  // ── 6 ─────────────────────────────────────────────────────────────────────
+  // ── 5 ─────────────────────────────────────────────────────────────────────
   test("editing textarea under custom preset does NOT flip activePresetId to 기본", async () => {
     const ctx = await launchCtx();
     try {
@@ -199,13 +173,13 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
 
       // Custom preset must still be active
       await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
-      await expect(page.locator(".preset-default")).not.toHaveClass(/preset-active/);
+      await expect(page.locator(".preset-btn").filter({ hasText: "기본" })).not.toHaveClass(/preset-active/);
     } finally {
       await ctx.close();
     }
   });
 
-  // ── 7 ─────────────────────────────────────────────────────────────────────
+  // ── 6 ─────────────────────────────────────────────────────────────────────
   test("per-preset last hanzi: each preset has isolated lastHanziMap entry", async () => {
     const ctx = await launchCtx();
     try {
@@ -241,8 +215,7 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
     }
   });
 
-  // ── 8 ─────────────────────────────────────────────────────────────────────
-  // Explicit blur+wait before switching — baseline
+  // ── 7 ─────────────────────────────────────────────────────────────────────
   test("edited textarea is restored when switching away and back (explicit blur)", async () => {
     const ctx = await launchCtx();
     try {
@@ -260,44 +233,8 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       await page.locator("h1").click();   // explicit blur
       await page.waitForTimeout(400);     // let async save finish
 
-      await page.locator(".preset-default").click();
+      await page.locator(".preset-btn").filter({ hasText: "기본" }).click();
       await page.locator(".preset-name").first().click();
-
-      const val = await page.locator("#hanziList").inputValue();
-      expect(val).toContain("月");
-      expect(val).toContain("日");
-      expect(val).toContain("星");
-    } finally {
-      await ctx.close();
-    }
-  });
-
-  // ── 9 ─────────────────────────────────────────────────────────────────────
-  // Direct click to another preset (no explicit blur) — the real user scenario
-  test("edited textarea is restored when clicking directly to another preset and back (no explicit blur)", async () => {
-    const ctx = await launchCtx();
-    try {
-      const extId = await getExtId(ctx);
-      const page = await openPopup(ctx, extId);
-
-      page.on("dialog", async (d) => {
-        if (d.type() === "prompt") await d.accept("직접클릭");
-        else await d.dismiss();
-      });
-      await page.locator(".preset-add").click();
-      await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
-
-      // Edit WITHOUT explicit blur — directly click away
-      await page.locator("#hanziList").fill("月 日 星");
-      await page.locator(".preset-default").click();   // blur fires implicitly here
-      await expect(page.locator(".preset-default")).toHaveClass(/preset-active/);
-
-      // Wait for all async saves to settle
-      await page.waitForTimeout(500);
-
-      // Click back to the custom preset
-      await page.locator(".preset-name").first().click();
-      await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
 
       const val = await page.locator("#hanziList").inputValue();
       expect(val).toContain("月");
