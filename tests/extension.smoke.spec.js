@@ -120,23 +120,60 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
   });
 
   // ── 4 ─────────────────────────────────────────────────────────────────────
-  test("blur saves textarea content; it is restored on next popup open", async () => {
+  test("unsaved textarea edits revert after popup close/reopen", async () => {
     const ctx = await launchCtx();
     try {
       const extId = await getExtId(ctx);
       const page = await openPopup(ctx, extId);
 
       page.on("dialog", async (d) => {
-        if (d.type() === "prompt") await d.accept("블러테스트");
+        if (d.type() === "prompt") await d.accept("리버트테스트");
         else await d.dismiss();
       });
       await page.locator(".preset-add").click();
       await expect(page.locator("#hanziList")).toBeEnabled();
 
-      // Fill and blur
+      // Fill, click save, then edit without saving
+      await page.locator("#hanziList").fill("金 銀 銅");
+      await page.locator("#saveHanziList").click();
+      await page.waitForTimeout(200);
+
+      await page.locator("#hanziList").fill("金 銀 銅 鐵 錫");
+      // Do NOT click save button
+
+      // Close and reopen
+      await page.close();
+      const page2 = await openPopup(ctx, extId);
+
+      const val = await page2.locator("#hanziList").inputValue();
+      expect(val).toContain("金");
+      expect(val).toContain("銀");
+      expect(val).toContain("銅");
+      expect(val).not.toContain("鐵");
+      expect(val).not.toContain("錫");
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  // ── 5 ─────────────────────────────────────────────────────────────────────
+  test("saved textarea edits persist after popup close/reopen", async () => {
+    const ctx = await launchCtx();
+    try {
+      const extId = await getExtId(ctx);
+      const page = await openPopup(ctx, extId);
+
+      page.on("dialog", async (d) => {
+        if (d.type() === "prompt") await d.accept("저장테스트");
+        else await d.dismiss();
+      });
+      await page.locator(".preset-add").click();
+      await expect(page.locator("#hanziList")).toBeEnabled();
+
+      // Fill and click save
       await page.locator("#hanziList").fill("金 銀 銅 鐵");
-      await page.locator("h1").click();          // triggers blur
-      await page.waitForTimeout(300);            // let blur handler run
+      await page.locator("#saveHanziList").click();
+      await page.waitForTimeout(200);
 
       // Close and reopen
       await page.close();
@@ -147,33 +184,6 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       expect(val).toContain("銀");
       expect(val).toContain("銅");
       expect(val).toContain("鐵");
-    } finally {
-      await ctx.close();
-    }
-  });
-
-  // ── 5 ─────────────────────────────────────────────────────────────────────
-  test("editing textarea under custom preset does NOT flip activePresetId to 기본", async () => {
-    const ctx = await launchCtx();
-    try {
-      const extId = await getExtId(ctx);
-      const page = await openPopup(ctx, extId);
-
-      page.on("dialog", async (d) => {
-        if (d.type() === "prompt") await d.accept("플립테스트");
-        else await d.dismiss();
-      });
-      await page.locator(".preset-add").click();
-      await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
-
-      // Type something in textarea — previously this could trigger syncActivePreset
-      // and flip the active preset back to 기본 if content matched the default list.
-      await page.locator("#hanziList").fill("火 水 木");
-      await page.waitForTimeout(500);   // wait past debounce
-
-      // Custom preset must still be active
-      await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
-      await expect(page.locator(".preset-btn").filter({ hasText: "기본" })).not.toHaveClass(/preset-active/);
     } finally {
       await ctx.close();
     }
@@ -210,36 +220,6 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       expect(map.default.hanzi).toBe("火");
       expect(map.c_test.hanzi).toBe("金");
       expect(map.default.hanzi).not.toBe(map.c_test.hanzi);
-    } finally {
-      await ctx.close();
-    }
-  });
-
-  // ── 7 ─────────────────────────────────────────────────────────────────────
-  test("edited textarea is restored when switching away and back (explicit blur)", async () => {
-    const ctx = await launchCtx();
-    try {
-      const extId = await getExtId(ctx);
-      const page = await openPopup(ctx, extId);
-
-      page.on("dialog", async (d) => {
-        if (d.type() === "prompt") await d.accept("편집테스트");
-        else await d.dismiss();
-      });
-      await page.locator(".preset-add").click();
-      await expect(page.locator(".preset-item").first()).toHaveClass(/preset-active/);
-
-      await page.locator("#hanziList").fill("月 日 星");
-      await page.locator("h1").click();   // explicit blur
-      await page.waitForTimeout(400);     // let async save finish
-
-      await page.locator(".preset-btn").filter({ hasText: "기본" }).click();
-      await page.locator(".preset-name").first().click();
-
-      const val = await page.locator("#hanziList").inputValue();
-      expect(val).toContain("月");
-      expect(val).toContain("日");
-      expect(val).toContain("星");
     } finally {
       await ctx.close();
     }

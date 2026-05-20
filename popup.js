@@ -1,4 +1,5 @@
 const textarea = document.getElementById("hanziList");
+const saveHanziListButton = document.getElementById("saveHanziList");
 const goToLastHanziButton = document.getElementById("goToLastHanzi");
 const lastHanziInfo = document.getElementById("lastHanziInfo");
 
@@ -51,7 +52,9 @@ const applyPreset = (hanzis, presetId) => {
 const renderPresetBar = () => {
     const bar = document.getElementById("presetBar");
     loadPresets((presets) => {
-        textarea.disabled = ["default", "iching", "taoteching", "jangzi", "suntzu"].includes(activePresetId);
+        const isBuiltIn = ["default", "iching", "taoteching", "jangzi", "suntzu"].includes(activePresetId);
+        textarea.disabled = isBuiltIn;
+        saveHanziListButton.disabled = isBuiltIn;
         bar.innerHTML = "";
 
         const defaultBtn = document.createElement("button");
@@ -197,32 +200,11 @@ const renderPresetBar = () => {
     });
 };
 
-let presetSyncTimer = null;
-textarea.addEventListener("input", () => {
-    clearTimeout(presetSyncTimer);
-    presetSyncTimer = setTimeout(() => {
-        const hanzis = parseHanziList(textarea.value);
-        if (hanzis.length === 0) return;
-        applyPreset(hanzis, activePresetId);
-        if (activePresetId !== "default") {
-            loadPresets((all) => {
-                savePresets(
-                    all.map((p) => p.id === activePresetId ? { ...p, hanzis } : p),
-                    renderPresetBar
-                );
-            });
-        } else {
-            renderPresetBar();
-        }
-    }, 300);
-});
-
-textarea.addEventListener("blur", () => {
-    clearTimeout(presetSyncTimer);
+saveHanziListButton.addEventListener("click", () => {
     const hanzis = parseHanziList(textarea.value);
     if (hanzis.length === 0) return;
-    applyPreset(hanzis, activePresetId);  // synchronous — safe if popup closes immediately
-    if (activePresetId !== "default") {
+    applyPreset(hanzis, activePresetId);
+    if (activePresetId !== "default" && !["iching", "taoteching", "jangzi", "suntzu"].includes(activePresetId)) {
         loadPresets((all) => {
             savePresets(
                 all.map((p) => p.id === activePresetId ? { ...p, hanzis } : p),

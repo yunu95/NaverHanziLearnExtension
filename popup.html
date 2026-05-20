@@ -23,7 +23,7 @@
         textarea {
             width: 100%;
             box-sizing: border-box;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             resize: vertical;
             border: 2px solid #d62828;
             background: #fffdf7;
@@ -64,6 +64,21 @@
         button:active {
             background: #7a1f1f;
             transform: scale(0.97);
+        }
+
+        button:disabled {
+            background: #c4a46a;
+            color: #9e7b4a;
+            cursor: not-allowed;
+        }
+
+        button:disabled:hover {
+            background: #c4a46a;
+            transform: none;
+        }
+
+        #saveHanziList {
+            margin-bottom: 12px;
         }
 
         #goToLastHanzi {
@@ -198,6 +213,7 @@
     <h1>네이버 한자 사전</h1>
     <span class="textarea-label">학습할 한자 목록</span>
     <textarea id="hanziList" rows="10" cols="30" placeholder="한자를 쉼표로 구분하여 입력하세요"></textarea>
+    <button id="saveHanziList">저장</button>
     <div id="presetBar"></div>
     <div id="lastHanziInfo"></div>
     <button id="goToLastHanzi">마지막 학습 한자로 이동</button>
