@@ -1,7 +1,10 @@
 const textarea = document.getElementById("hanziList");
 const saveHanziListButton = document.getElementById("saveHanziList");
+const resetHistoryButton = document.getElementById("resetHistory");
 const goToLastHanziButton = document.getElementById("goToLastHanzi");
 const lastHanziInfo = document.getElementById("lastHanziInfo");
+const ripenessSummary = document.getElementById("ripenessSummary");
+const hanziGrid = document.getElementById("hanziGrid");
 
 const PRESETS_KEY = "presets";
 
@@ -67,6 +70,7 @@ const renderPresetBar = () => {
             activePresetId = "default";
             applyPreset(hanzis, "default");
             renderPresetBar();
+            renderHanziGrid();
             renderLastHanzi();
         });
         bar.appendChild(defaultBtn);
@@ -81,6 +85,7 @@ const renderPresetBar = () => {
             activePresetId = "iching";
             applyPreset(hanzis, "iching");
             renderPresetBar();
+            renderHanziGrid();
             renderLastHanzi();
         });
         bar.appendChild(ichingBtn);
@@ -95,6 +100,7 @@ const renderPresetBar = () => {
             activePresetId = "taoteching";
             applyPreset(hanzis, "taoteching");
             renderPresetBar();
+            renderHanziGrid();
             renderLastHanzi();
         });
         bar.appendChild(taotechingBtn);
@@ -109,6 +115,7 @@ const renderPresetBar = () => {
             activePresetId = "jangzi";
             applyPreset(hanzis, "jangzi");
             renderPresetBar();
+            renderHanziGrid();
             renderLastHanzi();
         });
         bar.appendChild(jangziBtn);
@@ -123,6 +130,7 @@ const renderPresetBar = () => {
             activePresetId = "suntzu";
             applyPreset(hanzis, "suntzu");
             renderPresetBar();
+            renderHanziGrid();
             renderLastHanzi();
         });
         bar.appendChild(suntzuBtn);
@@ -141,6 +149,7 @@ const renderPresetBar = () => {
                 activePresetId = preset.id;
                 applyPreset(preset.hanzis, preset.id);
                 renderPresetBar();
+                renderHanziGrid();
                 renderLastHanzi();
             });
 
@@ -208,11 +217,15 @@ saveHanziListButton.addEventListener("click", () => {
         loadPresets((all) => {
             savePresets(
                 all.map((p) => p.id === activePresetId ? { ...p, hanzis } : p),
-                renderPresetBar
+                () => {
+                    renderPresetBar();
+                    renderHanziGrid();
+                }
             );
         });
     } else {
         renderPresetBar();
+        renderHanziGrid();
     }
 });
 
@@ -265,6 +278,83 @@ const buildStudyTargetUrl = (entry, hanzis) => {
     return `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(fallbackHanzi)}`;
 };
 
+const interpolateColor = (ratio) => {
+    ratio = Math.max(0, Math.min(1, ratio));
+    const r = 255;
+    const g = Math.round(255 * (1 - ratio));
+    const b = Math.round(255 * (1 - ratio));
+    return `rgb(${r}, ${g}, ${b})`;
+};
+
+const getRipenessState = (entry, now) => {
+    if (!entry || entry.views === 0) {
+        return { state: "never", color: "#808080" };
+    }
+    
+    if (entry.nextReview === null && entry.views >= 6) {
+        return { state: "mastered", color: "#ffd700" };
+    }
+    
+    if (entry.nextReview !== null && entry.nextReview <= now) {
+        return { state: "needReview", color: "#ff0000" };
+    }
+    
+    const timeSinceLastView = now - entry.lastViewed;
+    const totalInterval = entry.nextReview - entry.lastViewed;
+    const progress = timeSinceLastView / totalInterval;
+    
+    const color = interpolateColor(progress);
+    return { state: "ripening", color };
+};
+
+const renderHanziGrid = () => {
+    chrome.storage.local.get({ hanzis: [], hanziHistory: {} }, (data) => {
+        const hanzis = Array.isArray(data.hanzis) ? data.hanzis : [];
+        const history = data.hanziHistory[activePresetId] || {};
+        const now = Date.now();
+        
+        const counts = { never: 0, needReview: 0, ripening: 0, mastered: 0 };
+        
+        hanziGrid.innerHTML = "";
+        hanzis.forEach((hanzi) => {
+            const entry = history[hanzi];
+            const { state, color } = getRipenessState(entry, now);
+            counts[state]++;
+            
+            const cell = document.createElement("span");
+            cell.className = "hanzi-cell";
+            cell.textContent = hanzi;
+            cell.style.backgroundColor = color;
+            cell.dataset.hanzi = hanzi;
+            hanziGrid.appendChild(cell);
+        });
+        
+        ripenessSummary.textContent = `회색: 미학습 | 흰색→빨강: 숙성중 | 빨강: 복습 필요 | 금색: 완전 숙달`;
+    });
+};
+
+hanziGrid.addEventListener("click", (e) => {
+    const cell = e.target.closest(".hanzi-cell");
+    if (!cell || !cell.dataset.hanzi) return;
+    
+    const hanzi = cell.dataset.hanzi;
+    const url = `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(hanzi)}`;
+    chrome.tabs.create({ url, active: false });
+});
+
+resetHistoryButton.addEventListener("click", () => {
+    if (!confirm("현재 프리셋의 학습 기록을 모두 초기화하시겠습니까?")) return;
+    chrome.storage.local.get({ hanziHistory: {} }, (data) => {
+        const history = { ...data.hanziHistory };
+        if (activePresetId) {
+            delete history[activePresetId];
+        }
+        chrome.storage.local.set({ hanziHistory: history }, () => {
+            renderHanziGrid();
+        });
+    });
+});
+
 const renderSavedHanzis = () => {
     chrome.storage.local.get({ hanzis: [], activePresetId: null }, (data) => {
         if (Array.isArray(data.hanzis) && data.hanzis.length > 0) {
@@ -282,6 +372,7 @@ const renderSavedHanzis = () => {
             }
             if (!activePresetId) syncActivePreset(presets);
             renderPresetBar();
+            renderHanziGrid();
             renderLastHanzi();
         });
     });
@@ -316,3 +407,22 @@ if (document.readyState === "loading") {
 } else {
     renderSavedHanzis();
 }
+
+// Auto-refresh colors every 100ms to see ripening in real-time
+setInterval(() => {
+    if (!activePresetId || hanziGrid.children.length === 0) return;
+    
+    chrome.storage.local.get({ hanziHistory: {} }, (data) => {
+        const history = data.hanziHistory[activePresetId] || {};
+        const now = Date.now();
+        
+        const cells = hanziGrid.querySelectorAll(".hanzi-cell");
+        cells.forEach((cell) => {
+            const hanzi = cell.dataset.hanzi;
+            if (!hanzi) return;
+            const entry = history[hanzi];
+            const { color } = getRipenessState(entry, now);
+            cell.style.backgroundColor = color;
+        });
+    });
+}, 100);

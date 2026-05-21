@@ -81,6 +81,23 @@
             margin-bottom: 12px;
         }
 
+        #resetHistory {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            background: #b71c1c;
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+
+        #resetHistory:hover {
+            background: #7a1f1f;
+        }
+
+        #resetHistory:active {
+            background: #5a1515;
+            transform: scale(0.97);
+        }
+
         #goToLastHanzi {
             margin-top: 8px;
             background: #7a1f1f;
@@ -207,6 +224,38 @@
             transform: scale(0.97);
         }
 
+        #ripenessSummary {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #7a1f1f;
+            text-align: center;
+            min-height: 14px;
+        }
+
+        #hanziGrid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+        }
+
+        .hanzi-cell {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            font-size: 14px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: opacity 0.1s;
+        }
+
+        .hanzi-cell:hover {
+            opacity: 0.8;
+        }
+
     </style>
 </head>
 <body>
@@ -215,6 +264,9 @@
     <textarea id="hanziList" rows="10" cols="30" placeholder="한자를 쉼표로 구분하여 입력하세요"></textarea>
     <button id="saveHanziList">저장</button>
     <div id="presetBar"></div>
+    <div id="ripenessSummary"></div>
+    <div id="hanziGrid"></div>
+    <button id="resetHistory">학습 기록 초기화</button>
     <div id="lastHanziInfo"></div>
     <button id="goToLastHanzi">마지막 학습 한자로 이동</button>
     <script src="popup.js"></script>

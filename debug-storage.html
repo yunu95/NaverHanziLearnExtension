@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Storage</title>
+</head>
+<body>
+    <h1>Hanzi History Debug</h1>
+    <button id="checkStorage">Check Storage</button>
+    <button id="simulateView">Simulate Viewing 火</button>
+    <button id="clearStorage">Clear History</button>
+    <pre id="output"></pre>
+
+    <script>
+        const output = document.getElementById('output');
+        
+        const REVIEW_INTERVALS_MS = [86400000, 259200000, 604800000, 1382400000, 3024000000];
+        
+        document.getElementById('checkStorage').addEventListener('click', () => {
+            chrome.storage.local.get(null, (data) => {
+                output.textContent = JSON.stringify(data, null, 2);
+            });
+        });
+        
+        document.getElementById('simulateView').addEventListener('click', () => {
+            const currentHanzi = '火';
+            chrome.storage.local.get({ activePresetId: "default", lastHanziMap: {}, hanziHistory: {} }, (data) => {
+                const presetId = data.activePresetId || "default";
+                const map = { ...data.lastHanziMap };
+                map[presetId] = { hanzi: currentHanzi, url: 'test' };
+                
+                const history = { ...data.hanziHistory };
+                if (!history[presetId]) history[presetId] = {};
+                const entry = history[presetId][currentHanzi] || { views: 0, lastViewed: null, nextReview: null };
+                entry.views += 1;
+                entry.lastViewed = Date.now();
+                if (entry.views <= 5) {
+                    entry.nextReview = entry.lastViewed + REVIEW_INTERVALS_MS[entry.views - 1];
+                } else {
+                    entry.nextReview = null;
+                }
+                history[presetId][currentHanzi] = entry;
+                
+                output.textContent = `Updated entry for ${currentHanzi}:\n${JSON.stringify(entry, null, 2)}`;
+                
+                chrome.storage.local.set({ lastHanziMap: map, hanziHistory: history }, () => {
+                    output.textContent += '\n\nSaved to storage!';
+                });
+            });
+        });
+        
+        document.getElementById('clearStorage').addEventListener('click', () => {
+            chrome.storage.local.set({ hanziHistory: {} }, () => {
+                output.textContent = 'History cleared!';
+            });
+        });
+    </script>
+</body>
+</html>

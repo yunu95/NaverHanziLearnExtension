@@ -315,6 +315,100 @@ test("invalid stored activePresetId falls back gracefully", () => {
     eq(resolved, null, "deleted preset id should not be restored");
 });
 
+// ── spaced repetition tests ──────────────────────────────────────────────────
+test("REVIEW_INTERVALS_MS has correct values", () => {
+    const REVIEW_INTERVALS_MS = [86400000, 259200000, 604800000, 1382400000, 3024000000];
+    eq(REVIEW_INTERVALS_MS.length, 5, "should have 5 intervals");
+    eq(REVIEW_INTERVALS_MS[0], 86400000, "1st interval: 1 day");
+    eq(REVIEW_INTERVALS_MS[1], 259200000, "2nd interval: 3 days");
+    eq(REVIEW_INTERVALS_MS[2], 604800000, "3rd interval: 7 days");
+    eq(REVIEW_INTERVALS_MS[3], 1382400000, "4th interval: 16 days");
+    eq(REVIEW_INTERVALS_MS[4], 3024000000, "5th interval: 35 days");
+});
+
+test("ripeness classification", () => {
+    const REVIEW_INTERVALS_MS = [86400000, 259200000, 604800000, 1382400000, 3024000000];
+    const now = Date.now();
+    
+    const interpolateColor = (ratio) => {
+        ratio = Math.max(0, Math.min(1, ratio));
+        const r = 255;
+        const g = Math.round(255 * (1 - ratio));
+        const b = Math.round(255 * (1 - ratio));
+        return `rgb(${r}, ${g}, ${b})`;
+    };
+    
+    const getRipenessState = (entry, now) => {
+        if (!entry || entry.views === 0) {
+            return { state: "never", color: "#808080" };
+        }
+        
+        if (entry.nextReview !== null && entry.nextReview <= now) {
+            return { state: "needReview", color: "#ff0000" };
+        }
+        
+        if (entry.nextReview === null && entry.views >= 6) {
+            return { state: "mastered", color: "#ffd700" };
+        }
+        
+        const timeSinceLastView = now - entry.lastViewed;
+        const totalInterval = entry.nextReview - entry.lastViewed;
+        const progress = timeSinceLastView / totalInterval;
+        
+        const color = interpolateColor(progress);
+        return { state: "ripening", color };
+    };
+    
+    const neverEntry = { views: 0, lastViewed: null, nextReview: null };
+    eq(getRipenessState(neverEntry, now).state, "never", "views=0 should be never");
+    
+    const overdueEntry = { views: 3, lastViewed: now - 1000000, nextReview: now - 1000 };
+    eq(getRipenessState(overdueEntry, now).state, "needReview", "past nextReview should be needReview");
+    
+    const masteredEntry = { views: 6, lastViewed: now, nextReview: null };
+    eq(getRipenessState(masteredEntry, now).state, "mastered", "views=6 with nextReview=null should be mastered");
+    
+    const ripeningEntry = { views: 2, lastViewed: now - 43200000, nextReview: now + 43200000 };
+    eq(getRipenessState(ripeningEntry, now).state, "ripening", "entry between views should be ripening");
+});
+
+test("history update increments views and computes nextReview", () => {
+    const REVIEW_INTERVALS_MS = [86400000, 259200000, 604800000, 1382400000, 3024000000];
+    
+    const updateHistory = (entry, now) => {
+        const newEntry = { ...entry };
+        newEntry.views += 1;
+        newEntry.lastViewed = now;
+        if (newEntry.views <= 5) {
+            newEntry.nextReview = newEntry.lastViewed + REVIEW_INTERVALS_MS[newEntry.views - 1];
+        } else {
+            newEntry.nextReview = null;
+        }
+        return newEntry;
+    };
+    
+    const now = Date.now();
+    let entry = { views: 0, lastViewed: null, nextReview: null };
+    
+    entry = updateHistory(entry, now);
+    eq(entry.views, 1, "after 1st view, views=1");
+    eq(entry.nextReview, now + 86400000, "after 1st view, nextReview = now + 1 day");
+    
+    entry = updateHistory(entry, now);
+    eq(entry.views, 2, "after 2nd view, views=2");
+    eq(entry.nextReview, now + 259200000, "after 2nd view, nextReview = now + 3 days");
+    
+    entry = updateHistory(entry, now);
+    entry = updateHistory(entry, now);
+    entry = updateHistory(entry, now);
+    eq(entry.views, 5, "after 5th view, views=5");
+    eq(entry.nextReview, now + 3024000000, "after 5th view, nextReview = now + 35 days");
+    
+    entry = updateHistory(entry, now);
+    eq(entry.views, 6, "after 6th view, views=6");
+    eq(entry.nextReview, null, "after 6th view, nextReview should be null (mastered)");
+});
+
 // ── summary ──────────────────────────────────────────────────────────────────
 console.log(`\n${passed + failed} tests: ${passed} passed, ${failed} failed\n`);
 if (failed > 0) process.exit(1);

@@ -11,9 +11,6 @@ const crypto = require("crypto");
 const { test, expect, chromium } = require("@playwright/test");
 
 const extensionPath = path.resolve(__dirname, "..");
-const edgeExecutable =
-  process.env.EDGE_PATH ||
-  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 
 /** Launch a fresh persistent context with the extension loaded. */
 async function launchCtx() {
@@ -23,7 +20,6 @@ async function launchCtx() {
   );
   return chromium.launchPersistentContext(tmpDir, {
     headless: false,
-    executablePath: edgeExecutable,
     args: [
       `--disable-extensions-except=${extensionPath}`,
       `--load-extension=${extensionPath}`,
@@ -220,6 +216,85 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       expect(map.default.hanzi).toBe("火");
       expect(map.c_test.hanzi).toBe("金");
       expect(map.default.hanzi).not.toBe(map.c_test.hanzi);
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  test("hanzi grid renders with correct ripeness colors", async () => {
+    const ctx = await launchCtx();
+    try {
+      const extId = await getExtId(ctx);
+      const page = await openPopup(ctx, extId);
+
+      const addBtn = page.locator(".preset-add");
+      await addBtn.click();
+
+      const textarea = page.locator("#hanziList");
+      await textarea.fill("火, 水, 木, 金, 土");
+
+      const saveBtn = page.locator("#saveHanziList");
+      await saveBtn.click();
+
+      const grid = page.locator("#hanziGrid");
+      await expect(grid).toBeVisible();
+
+      const cells = page.locator(".hanzi-cell");
+      await expect(cells).toHaveCount(5);
+
+      for (let i = 0; i < 5; i++) {
+        const cell = cells.nth(i);
+        const bgColor = await cell.evaluate((el) =>
+          window.getComputedStyle(el).backgroundColor
+        );
+        expect(bgColor).toBe("rgb(128, 128, 128)");
+      }
+
+      const summary = page.locator("#ripenessSummary");
+      await expect(summary).toHaveText("회색: 미학습 | 흰색→빨강: 숙성중 | 빨강: 복습 필요 | 금색: 완전 숙달");
+    } finally {
+      await ctx.close();
+    }
+  });
+
+  test("clicking hanzi cell updates its color after page load", async () => {
+    const ctx = await launchCtx();
+    try {
+      const extId = await getExtId(ctx);
+      const popupPage = await openPopup(ctx, extId);
+
+      const addBtn = popupPage.locator(".preset-add");
+      await addBtn.click();
+
+      const textarea = popupPage.locator("#hanziList");
+      await textarea.fill("火");
+
+      const saveBtn = popupPage.locator("#saveHanziList");
+      await saveBtn.click();
+
+      const firstCell = popupPage.locator(".hanzi-cell").first();
+      const initialColor = await firstCell.evaluate((el) =>
+        window.getComputedStyle(el).backgroundColor
+      );
+      expect(initialColor).toBe("rgb(128, 128, 128)");
+
+      await firstCell.click();
+
+      const dictPage = await ctx.waitForEvent("page");
+      await dictPage.waitForLoadState("domcontentloaded");
+      await dictPage.waitForTimeout(2000);
+
+      const newPopupPage = await openPopup(ctx, extId);
+      
+      const updatedCell = newPopupPage.locator(".hanzi-cell").first();
+      const updatedColor = await updatedCell.evaluate((el) =>
+        window.getComputedStyle(el).backgroundColor
+      );
+      
+      expect(updatedColor).not.toBe("rgb(128, 128, 128)");
+      
+      console.log("Initial color:", initialColor);
+      console.log("Updated color:", updatedColor);
     } finally {
       await ctx.close();
     }

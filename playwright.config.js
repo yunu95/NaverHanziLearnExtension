@@ -21,6 +21,12 @@ module.exports = defineConfig({
   },
   projects: [
     {
+      name: "chromium-extension",
+      use: {
+        browserName: "chromium",
+      },
+    },
+    {
       name: "edge-extension",
       use: {
         browserName: "chromium",
