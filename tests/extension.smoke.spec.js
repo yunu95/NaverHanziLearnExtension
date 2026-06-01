@@ -195,7 +195,7 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       // Inject two separate lastHanziMap entries via storage API
       await page.evaluate(() => {
         return new Promise((resolve) =>
-          chrome.storage.local.set(
+          chrome.storage.sync.set(
             {
               lastHanziMap: {
                 default: { hanzi: "火", url: "https://hanja.dict.naver.com/a" },
@@ -210,7 +210,7 @@ test.describe("Naver Hanja extension — preset & save behavior", () => {
       // Verify isolation: read back and check
       const map = await page.evaluate(() =>
         new Promise((resolve) =>
-          chrome.storage.local.get({ lastHanziMap: {} }, (d) => resolve(d.lastHanziMap))
+          chrome.storage.sync.get({ lastHanziMap: {} }, (d) => resolve(d.lastHanziMap))
         )
       );
       expect(map.default.hanzi).toBe("火");

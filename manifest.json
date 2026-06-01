@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Naver Hanzi Redirect",
-    "version": "1.0",
-    "description": "Redirects to Naver Hanzi Dictionary.",
+    "name": "네이버 한자사전을 통한 한자공부",
+    "version": "1.1",
+    "description": "네이버 한자사전을 통해 자원과 획순을 한 눈에 보면서 전략적인 주기로 한자를 공부하세요.",
     "permissions": [
         "storage",
         "tabs"

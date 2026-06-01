@@ -11,11 +11,11 @@ const PRESETS_KEY = "presets";
 let activePresetId = null;
 
 const loadPresets = (callback) => {
-    chrome.storage.local.get({ [PRESETS_KEY]: [] }, (data) => callback(data[PRESETS_KEY]));
+    chrome.storage.sync.get({ [PRESETS_KEY]: [] }, (data) => callback(data[PRESETS_KEY]));
 };
 
 const savePresets = (presets, callback) => {
-    chrome.storage.local.set({ [PRESETS_KEY]: presets }, callback);
+    chrome.storage.sync.set({ [PRESETS_KEY]: presets }, callback);
 };
 
 const getHanziSignature = (hanzis) => [...hanzis].sort().join(",");
@@ -49,7 +49,7 @@ const syncActivePreset = (presets) => {
 };
 
 const applyPreset = (hanzis, presetId) => {
-    chrome.storage.local.set({ hanzis, activePresetId: presetId });
+    chrome.storage.sync.set({ hanzis, activePresetId: presetId });
 };
 
 const renderPresetBar = () => {
@@ -308,7 +308,7 @@ const getRipenessState = (entry, now) => {
 };
 
 const renderHanziGrid = () => {
-    chrome.storage.local.get({ hanzis: [], hanziHistory: {} }, (data) => {
+    chrome.storage.sync.get({ hanzis: [], hanziHistory: {} }, (data) => {
         const hanzis = Array.isArray(data.hanzis) ? data.hanzis : [];
         const history = data.hanziHistory[activePresetId] || {};
         const now = Date.now();
@@ -344,24 +344,24 @@ hanziGrid.addEventListener("click", (e) => {
 
 resetHistoryButton.addEventListener("click", () => {
     if (!confirm("현재 프리셋의 학습 기록을 모두 초기화하시겠습니까?")) return;
-    chrome.storage.local.get({ hanziHistory: {} }, (data) => {
+    chrome.storage.sync.get({ hanziHistory: {} }, (data) => {
         const history = { ...data.hanziHistory };
         if (activePresetId) {
             delete history[activePresetId];
         }
-        chrome.storage.local.set({ hanziHistory: history }, () => {
+        chrome.storage.sync.set({ hanziHistory: history }, () => {
             renderHanziGrid();
         });
     });
 });
 
 const renderSavedHanzis = () => {
-    chrome.storage.local.get({ hanzis: [], activePresetId: null }, (data) => {
+    chrome.storage.sync.get({ hanzis: [], activePresetId: null }, (data) => {
         if (Array.isArray(data.hanzis) && data.hanzis.length > 0) {
             textarea.value = data.hanzis.join(", ");
         } else {
             const defaultList = parseHanziList(DEFAULT_HANZIS);
-            chrome.storage.local.set({ hanzis: defaultList });
+            chrome.storage.sync.set({ hanzis: defaultList });
             textarea.value = defaultList.join(", ");
         }
         loadPresets((presets) => {
@@ -379,7 +379,7 @@ const renderSavedHanzis = () => {
 };
 
 const renderLastHanzi = () => {
-    chrome.storage.local.get({ lastHanziMap: {} }, (data) => {
+    chrome.storage.sync.get({ lastHanziMap: {} }, (data) => {
         const entry = (data.lastHanziMap || {})[activePresetId];
         goToLastHanziButton.textContent = getStudyButtonLabel(entry);
         if (entry && entry.hanzi) {
@@ -391,7 +391,7 @@ const renderLastHanzi = () => {
 };
 
 goToLastHanziButton.addEventListener("click", () => {
-    chrome.storage.local.get({ lastHanziMap: {}, hanzis: [] }, (data) => {
+    chrome.storage.sync.get({ lastHanziMap: {}, hanzis: [] }, (data) => {
         const entry = (data.lastHanziMap || {})[activePresetId];
         const url = buildStudyTargetUrl(entry, data.hanzis);
         if (!url) {
@@ -412,7 +412,7 @@ if (document.readyState === "loading") {
 setInterval(() => {
     if (!activePresetId || hanziGrid.children.length === 0) return;
     
-    chrome.storage.local.get({ hanziHistory: {} }, (data) => {
+    chrome.storage.sync.get({ hanziHistory: {} }, (data) => {
         const history = data.hanziHistory[activePresetId] || {};
         const now = Date.now();
         

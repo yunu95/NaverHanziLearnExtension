@@ -133,13 +133,13 @@ const findSavedHanziInText = (value) => {
 
 const loadHanzis = () =>
     new Promise((resolve) => {
-        chrome.storage.local.get({ [STORAGE_KEY]: [] }, (data) => {
+        chrome.storage.sync.get({ [STORAGE_KEY]: [] }, (data) => {
             const list = data[STORAGE_KEY];
             if (list.length > 0) {
                 resolve(setHanzis(list));
             } else {
                 const defaultList = DEFAULT_HANZIS.trim().split(/\s+/).filter(Boolean);
-                chrome.storage.local.set({ [STORAGE_KEY]: defaultList });
+                chrome.storage.sync.set({ [STORAGE_KEY]: defaultList });
                 resolve(setHanzis(defaultList));
             }
         });
@@ -153,7 +153,7 @@ const ensureHanzisLoaded = async () => {
 };
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName !== "local" || !changes[STORAGE_KEY]) {
+    if (areaName !== "sync" || !changes[STORAGE_KEY]) {
         return;
     }
 
@@ -601,7 +601,7 @@ const renderPanel = () => {
 
     if (currentHanzi && !historyUpdatedForCurrentPage) {
         historyUpdatedForCurrentPage = true;
-        chrome.storage.local.get({ activePresetId: "default", lastHanziMap: {}, hanziHistory: {} }, (data) => {
+        chrome.storage.sync.get({ activePresetId: "default", lastHanziMap: {}, hanziHistory: {} }, (data) => {
             const presetId = data.activePresetId || "default";
             const map = { ...data.lastHanziMap };
             map[presetId] = { hanzi: currentHanzi, url: window.location.href };
@@ -623,7 +623,7 @@ const renderPanel = () => {
                 history[presetId][currentHanzi] = entry;
             }
             
-            chrome.storage.local.set({ lastHanziMap: map, hanziHistory: history });
+            chrome.storage.sync.set({ lastHanziMap: map, hanziHistory: history });
         });
     }
 

@@ -60,7 +60,7 @@ test("clicking hanzi 6 times should eventually turn gold", async () => {
       // Check storage
       const storage = await popupPage.evaluate(() => {
         return new Promise((resolve) => {
-          chrome.storage.local.get(null, (data) => resolve(data));
+          chrome.storage.sync.get(null, (data) => resolve(data));
         });
       });
       

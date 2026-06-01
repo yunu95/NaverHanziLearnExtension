@@ -4,7 +4,7 @@
 let store = {};
 const chrome = {
     storage: {
-        local: {
+        sync: {
             get(defaults, cb) {
                 const result = {};
                 for (const k of Object.keys(defaults))

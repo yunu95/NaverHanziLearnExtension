@@ -114,7 +114,7 @@ test("clicking hanzi cell updates color after page load", async () => {
     console.log("Step 6: Checking storage...");
     const storageData = await popupPage.evaluate(() => {
       return new Promise((resolve) => {
-        chrome.storage.local.get(null, (data) => resolve(data));
+        chrome.storage.sync.get(null, (data) => resolve(data));
       });
     });
     console.log("Storage data:", JSON.stringify(storageData, null, 2));
