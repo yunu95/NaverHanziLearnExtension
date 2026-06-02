@@ -408,6 +408,18 @@ if (document.readyState === "loading") {
     renderSavedHanzis();
 }
 
+document.getElementById('supportBtn').addEventListener('click', () => {
+    document.getElementById('qrOverlay').classList.add('open');
+});
+document.getElementById('closeQr').addEventListener('click', () => {
+    document.getElementById('qrOverlay').classList.remove('open');
+});
+document.getElementById('qrOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('qrOverlay')) {
+        document.getElementById('qrOverlay').classList.remove('open');
+    }
+});
+
 // Auto-refresh colors every 100ms to see ripening in real-time
 setInterval(() => {
     if (!activePresetId || hanziGrid.children.length === 0) return;

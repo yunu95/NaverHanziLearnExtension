@@ -256,6 +256,88 @@
             opacity: 0.8;
         }
 
+        #supportBtn {
+            margin-top: 16px;
+            background: transparent;
+            border: 2px solid #d62828;
+            color: #d62828;
+            font-size: 15px;
+            padding: 10px 12px;
+            letter-spacing: 0.03em;
+        }
+
+        #supportBtn:hover {
+            background: #fde8e8;
+        }
+
+        #supportBtn:active {
+            background: #f9c4c4;
+            transform: scale(0.97);
+        }
+
+        #qrOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.72);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #qrOverlay.open {
+            display: flex;
+        }
+
+        #qrBox {
+            background: #fff3cd;
+            border: 4px solid #d62828;
+            border-radius: 8px;
+            padding: 20px 20px 16px;
+            text-align: center;
+            max-width: 260px;
+            width: 90%;
+        }
+
+        #qrBox p {
+            font-size: 15px;
+            font-weight: bold;
+            color: #7a1f1f;
+            margin: 0 0 12px;
+            line-height: 1.45;
+        }
+
+        #qrBox img {
+            width: 100%;
+            max-width: 200px;
+            display: block;
+            margin: 0 auto 14px;
+            border: 2px solid #d62828;
+            border-radius: 4px;
+        }
+
+        #closeQr {
+            background: #d62828;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 24px;
+            border: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #closeQr:hover {
+            background: #b71c1c;
+        }
+
+        #closeQr:active {
+            background: #7a1f1f;
+            transform: scale(0.97);
+        }
+
     </style>
 </head>
 <body>
@@ -269,6 +351,16 @@
     <button id="resetHistory">학습 기록 초기화</button>
     <div id="lastHanziInfo"></div>
     <button id="goToLastHanzi">마지막 학습 한자로 이동</button>
+    <button id="supportBtn">🍚 開發者에게 後援하기</button>
+
+    <div id="qrOverlay">
+        <div id="qrBox">
+            <p>밥 한 끼 사주십시오</p>
+            <img src="ShowMeTheMoneyQR.png" alt="후원 QR 코드">
+            <button id="closeQr">닫기</button>
+        </div>
+    </div>
+
     <script src="popup.js"></script>
 </body>
 </html>
