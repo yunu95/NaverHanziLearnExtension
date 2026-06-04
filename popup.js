@@ -326,6 +326,9 @@ const renderHanziGrid = () => {
             cell.textContent = hanzi;
             cell.style.backgroundColor = color;
             cell.dataset.hanzi = hanzi;
+            cell.dataset.state = state;
+            if (entry?.nextReview != null) cell.dataset.nextReview = entry.nextReview;
+            if (entry?.lastViewed != null) cell.dataset.lastViewed = entry.lastViewed;
             hanziGrid.appendChild(cell);
         });
         
@@ -418,6 +421,62 @@ document.getElementById('qrOverlay').addEventListener('click', (e) => {
     if (e.target === document.getElementById('qrOverlay')) {
         document.getElementById('qrOverlay').classList.remove('open');
     }
+});
+
+// ── hanzi cell ripeness tooltip ─────────────────────────────────────────────
+
+const hanziTooltip = document.getElementById("hanziTooltip");
+
+const formatReviewDate = (timestamp) => {
+    const d = new Date(Number(timestamp));
+    return `${d.getMonth() + 1}월 ${d.getDate()}일`;
+};
+
+const getTooltipText = (state, nextReview, lastViewed) => {
+    if (state === "never") return "아직 학습하지 않은 한자입니다.";
+
+    let reviewDate;
+    if (state === "mastered") {
+        reviewDate = formatReviewDate(Date.now() + 3024000000);
+    } else {
+        reviewDate = nextReview ? formatReviewDate(nextReview) : null;
+    }
+
+    if (state === "ripening") {
+        return `한자가 익어가고 있습니다...\n${reviewDate}에 복습하는게 가장 적절합니다.`;
+    }
+    if (state === "mastered") {
+        return `한자가 익었습니다!\n${reviewDate}에 복습하는게 가장 적절합니다.`;
+    }
+    if (state === "needReview") {
+        return `한자가 익은지 오래되었습니다.\n${reviewDate ? reviewDate + "에" : "지금"} 복습하는게 가장 적절합니다.`;
+    }
+    return "";
+};
+
+hanziGrid.addEventListener("mouseover", (e) => {
+    const cell = e.target.closest(".hanzi-cell");
+    if (!cell) { hanziTooltip.style.display = "none"; return; }
+
+    const text = getTooltipText(cell.dataset.state, cell.dataset.nextReview, cell.dataset.lastViewed);
+    if (!text) { hanziTooltip.style.display = "none"; return; }
+
+    hanziTooltip.textContent = text;
+    hanziTooltip.style.display = "block";
+
+    const rect = cell.getBoundingClientRect();
+    const tipRect = hanziTooltip.getBoundingClientRect();
+    let top = rect.top - tipRect.height - 6;
+    if (top < 4) top = rect.bottom + 6;
+    let left = rect.left + rect.width / 2 - tipRect.width / 2;
+    left = Math.max(4, Math.min(left, window.innerWidth - tipRect.width - 4));
+
+    hanziTooltip.style.top = top + "px";
+    hanziTooltip.style.left = left + "px";
+});
+
+hanziGrid.addEventListener("mouseleave", () => {
+    hanziTooltip.style.display = "none";
 });
 
 // Auto-refresh colors every 100ms to see ripening in real-time

@@ -710,6 +710,70 @@ const startFloatingPanel = () => {
     window.addEventListener("resize", positionPanel, { passive: true });
 };
 
+// ── first-use arrow key hint ────────────────────────────────────────────────
+
+const ARROW_HINT_KEY = "hanzi-ext-arrow-hint-shown";
+
+const showArrowHint = () => {
+
+    const makePanel = (isLeft) => {
+        const panel = document.createElement("div");
+        panel.style.cssText = [
+            "position:fixed",
+            isLeft ? "left:16px" : "right:16px",
+            "bottom:24px",
+            "z-index:2147483647",
+            "background:#fff3cd",
+            "border:3px solid #d62828",
+            "border-radius:6px",
+            "padding:14px 16px",
+            "font-family:Arial,sans-serif",
+            "color:#7a1f1f",
+            "text-align:center",
+            "box-shadow:0 4px 16px rgba(0,0,0,0.28)",
+            "transition:opacity 0.7s",
+            "opacity:1",
+            "cursor:pointer",
+            "max-width:150px",
+            "line-height:1.35",
+        ].join(";");
+
+        const arrow = document.createElement("div");
+        arrow.style.cssText = "font-size:42px;line-height:1;margin-bottom:6px;color:#d62828;font-weight:bold;";
+        arrow.textContent = isLeft ? "←" : "→";
+
+        const label = document.createElement("div");
+        label.style.cssText = "font-size:13px;font-weight:bold;margin-bottom:5px;";
+        label.textContent = isLeft ? "이전 한자" : "다음 한자";
+
+        const sub = document.createElement("div");
+        sub.style.cssText = "font-size:11px;color:#a04040;";
+        sub.textContent = isLeft ? "왼쪽 화살표 키" : "오른쪽 화살표 키";
+
+        panel.appendChild(arrow);
+        panel.appendChild(label);
+        panel.appendChild(sub);
+        return panel;
+    };
+
+    const leftPanel = makePanel(true);
+    const rightPanel = makePanel(false);
+
+    const dismiss = () => {
+        leftPanel.style.opacity = "0";
+        rightPanel.style.opacity = "0";
+        setTimeout(() => { leftPanel.remove(); rightPanel.remove(); }, 750);
+    };
+
+    leftPanel.addEventListener("click", dismiss);
+    rightPanel.addEventListener("click", dismiss);
+
+    document.body.appendChild(leftPanel);
+    document.body.appendChild(rightPanel);
+
+    setTimeout(dismiss, 5000);
+};
+
 // ── 획순보기 repositioning ──────────────────────────────────────────────────
 
 let strokeObserver = null;
@@ -943,6 +1007,7 @@ const initPageLogic = async () => {
     startDescriptionScroller();
     startFloatingPanel();
     startStrokeWatcher();
+    showArrowHint();
 };
 
 const scheduleInit = () => {
