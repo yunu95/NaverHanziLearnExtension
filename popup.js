@@ -352,10 +352,13 @@ const renderHanziGrid = () => {
 hanziGrid.addEventListener("click", (e) => {
     const cell = e.target.closest(".hanzi-cell");
     if (!cell || !cell.dataset.hanzi) return;
-    
+
     const hanzi = cell.dataset.hanzi;
     const url = `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(hanzi)}`;
-    chrome.tabs.create({ url, active: false });
+    chrome.storage.sync.set({ reviewMode: null }, () => {
+        renderRipeButton();
+        chrome.tabs.create({ url, active: false });
+    });
 });
 
 resetHistoryButton.addEventListener("click", () => {
@@ -440,7 +443,10 @@ goToLastHanziButton.addEventListener("click", () => {
             alert("학습할 한자가 없습니다. 먼저 한자 목록을 저장하세요.");
             return;
         }
-        chrome.tabs.create({ url });
+        chrome.storage.sync.set({ reviewMode: null }, () => {
+            renderRipeButton();
+            chrome.tabs.create({ url });
+        });
     });
 });
 

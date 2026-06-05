@@ -2,7 +2,9 @@ const STORAGE_KEY = "hanzis";
 const SEARCH_URL_PREFIX = "https://hanja.dict.naver.com/#/search?query=";
 const DESCRIPTION_MAP_KEY = "hanziDescriptionMap";
 const HANZI_SIGNATURE_KEY = "hanziListSignature";
-const REVIEW_INTERVALS_MS = [0, 259200000, 604800000, 1382400000, 3024000000];
+// Cumulative days from first learning: ~1, 3, 7, 16, 35
+// Delta between consecutive reviews:    1, 2, 4,  9, 19
+const REVIEW_INTERVALS_MS = [86400000, 172800000, 345600000, 777600000, 1641600000];
 
 const getNext3AM = (afterTimestamp) => {
     const d = new Date(afterTimestamp);
@@ -692,10 +694,11 @@ const renderPanel = () => {
             const isFirstView = entry.views === 0;
             const isReviewDue = entry.nextReview !== null && entry.nextReview <= now;
             if (isFirstView || isReviewDue) {
+                const base = isFirstView ? now : entry.nextReview;
                 entry.views += 1;
                 entry.lastViewed = now;
                 if (entry.views <= 5) {
-                    entry.nextReview = getNext3AM(now + REVIEW_INTERVALS_MS[entry.views - 1]);
+                    entry.nextReview = getNext3AM(base + REVIEW_INTERVALS_MS[entry.views - 1]);
                 } else {
                     entry.nextReview = null;
                 }
@@ -723,8 +726,8 @@ const renderPanel = () => {
     const reviewBadgeHtml = (() => {
         if (!reviewMode?.active || !Array.isArray(reviewMode.list) || reviewMode.list.length === 0) return "";
         const pos = reviewMode.list.indexOf(currentHanzi);
-        const posText = pos >= 0 ? `${pos + 1} / ${reviewMode.list.length}` : `- / ${reviewMode.list.length}`;
-        return `<div style="font-size:10px;background:#d62828;color:#fff;padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:0.04em;display:inline-block;">복습 모드 ${posText}</div>`;
+        if (pos < 0) return "";
+        return `<div style="font-size:10px;background:#d62828;color:#fff;padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:0.04em;display:inline-block;">복습 모드 ${pos + 1} / ${reviewMode.list.length}</div>`;
     })();
 
     panel.innerHTML = reviewBadgeHtml +
@@ -800,63 +803,74 @@ const startFloatingPanel = () => {
 
 const ARROW_HINT_KEY = "hanzi-ext-arrow-hint-shown";
 
+const ARROW_HINT_ID = "hanzi-ext-arrow-hint";
+
+const getArrowHintData = () => {
+    try {
+        const raw = localStorage.getItem(ARROW_HINT_KEY);
+        return raw ? JSON.parse(raw) : { lastUsedDate: null, usageDays: 0 };
+    } catch {
+        return { lastUsedDate: null, usageDays: 0 };
+    }
+};
+
+const recordArrowKeyUsage = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const data = getArrowHintData();
+    const lastDate = data.lastUsedDate;
+    const daysSinceLast = lastDate
+        ? Math.floor((Date.now() - new Date(lastDate).getTime()) / 86400000)
+        : Infinity;
+
+    if (!lastDate || daysSinceLast >= 7) {
+        localStorage.setItem(ARROW_HINT_KEY, JSON.stringify({ lastUsedDate: today, usageDays: 1 }));
+    } else if (lastDate !== today) {
+        localStorage.setItem(ARROW_HINT_KEY, JSON.stringify({ lastUsedDate: today, usageDays: (data.usageDays || 0) + 1 }));
+    }
+    // same day: no change
+};
+
 const showArrowHint = () => {
-
-    const makePanel = (isLeft) => {
-        const panel = document.createElement("div");
-        panel.style.cssText = [
-            "position:fixed",
-            isLeft ? "left:16px" : "right:16px",
-            "bottom:24px",
-            "z-index:2147483647",
-            "background:#fff3cd",
-            "border:3px solid #d62828",
-            "border-radius:6px",
-            "padding:14px 16px",
-            "font-family:Arial,sans-serif",
-            "color:#7a1f1f",
-            "text-align:center",
-            "box-shadow:0 4px 16px rgba(0,0,0,0.28)",
-            "transition:opacity 0.7s",
-            "opacity:1",
-            "cursor:pointer",
-            "max-width:150px",
-            "line-height:1.35",
-        ].join(";");
-
-        const arrow = document.createElement("div");
-        arrow.style.cssText = "font-size:42px;line-height:1;margin-bottom:6px;color:#d62828;font-weight:bold;";
-        arrow.textContent = isLeft ? "←" : "→";
-
-        const label = document.createElement("div");
-        label.style.cssText = "font-size:13px;font-weight:bold;margin-bottom:5px;";
-        label.textContent = isLeft ? "이전 한자" : "다음 한자";
-
-        const sub = document.createElement("div");
-        sub.style.cssText = "font-size:11px;color:#a04040;";
-        sub.textContent = isLeft ? "왼쪽 화살표 키" : "오른쪽 화살표 키";
-
-        panel.appendChild(arrow);
-        panel.appendChild(label);
-        panel.appendChild(sub);
-        return panel;
-    };
-
-    const leftPanel = makePanel(true);
-    const rightPanel = makePanel(false);
+    const data = getArrowHintData();
+    const lastDate = data.lastUsedDate;
+    const daysSinceLast = lastDate
+        ? Math.floor((Date.now() - new Date(lastDate).getTime()) / 86400000)
+        : Infinity;
+    // Hide after 3 days of use, unless 7+ days have passed since last use
+    if (daysSinceLast < 7 && (data.usageDays || 0) >= 3) return;
+    const hint = document.createElement("div");
+    hint.id = ARROW_HINT_ID;
+    hint.style.cssText = [
+        "position:fixed",
+        "bottom:24px",
+        "left:50%",
+        "transform:translateX(-50%)",
+        "z-index:2147483647",
+        "background:#fff3cd",
+        "border:2px solid #d62828",
+        "border-radius:6px",
+        "padding:12px 24px",
+        "font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif",
+        "color:#7a1f1f",
+        "font-size:16px",
+        "text-align:center",
+        "box-shadow:0 3px 12px rgba(0,0,0,0.18)",
+        "transition:opacity 0.8s",
+        "opacity:0",
+        "cursor:pointer",
+        "white-space:nowrap",
+        "pointer-events:auto",
+    ].join(";");
+    hint.textContent = "키보드의 좌우 화살표 키를 눌러 이전/다음 한자를 오갈 수 있습니다.";
 
     const dismiss = () => {
-        leftPanel.style.opacity = "0";
-        rightPanel.style.opacity = "0";
-        setTimeout(() => { leftPanel.remove(); rightPanel.remove(); }, 750);
+        hint.style.opacity = "0";
+        setTimeout(() => { if (hint.parentNode) hint.remove(); }, 800);
     };
 
-    leftPanel.addEventListener("click", dismiss);
-    rightPanel.addEventListener("click", dismiss);
-
-    document.documentElement.appendChild(leftPanel);
-    document.documentElement.appendChild(rightPanel);
-
+    hint.addEventListener("click", dismiss);
+    document.documentElement.appendChild(hint);
+    setTimeout(() => { hint.style.opacity = "1"; }, 5000);
 };
 
 // ── 획순보기 repositioning ──────────────────────────────────────────────────
@@ -1106,6 +1120,15 @@ document.addEventListener("keydown", async (event) => {
     const editable = event.target?.isContentEditable;
     if (tag === "input" || tag === "textarea" || tag === "select" || editable) {
         return;
+    }
+
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        recordArrowKeyUsage();
+        const hintEl = document.getElementById(ARROW_HINT_ID);
+        if (hintEl) {
+            hintEl.style.opacity = "0";
+            setTimeout(() => { if (hintEl.parentNode) hintEl.remove(); }, 800);
+        }
     }
 
     if (event.key === "ArrowRight") {
