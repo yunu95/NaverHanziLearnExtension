@@ -111,6 +111,20 @@
             transform: scale(0.97);
         }
 
+        #goToNextRipeHanzi {
+            margin-top: 8px;
+            background: #7a1f1f;
+        }
+
+        #goToNextRipeHanzi:hover {
+            background: #5a1515;
+        }
+
+        #goToNextRipeHanzi:active {
+            background: #3b0d0d;
+            transform: scale(0.97);
+        }
+
         #lastHanziInfo {
             margin-top: 8px;
             font-size: 13px;
@@ -228,7 +242,6 @@
             font-size: 13px;
             color: #7a1f1f;
             text-align: center;
-            min-height: 16px;
         }
 
         #hanziGrid {
@@ -237,6 +250,8 @@
             gap: 3px;
             margin-top: 4px;
             margin-bottom: 8px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .hanzi-cell {
@@ -287,6 +302,8 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.22);
             z-index: 9999;
             white-space: pre-line;
+            word-break: keep-all;
+            overflow-wrap: break-word;
             text-align: center;
             pointer-events: none;
             max-width: 200px;
@@ -360,7 +377,7 @@
 </head>
 <body>
     <span class="textarea-label">학습할 한자 목록</span>
-    <textarea id="hanziList" rows="5" cols="30" placeholder="한자를 쉼표로 구분하여 입력하세요"></textarea>
+    <textarea id="hanziList" rows="8" cols="30" placeholder="한자를 쉼표로 구분하여 입력하세요"></textarea>
     <button id="saveHanziList">저장</button>
     <div id="presetBar"></div>
     <div id="ripenessSummary"></div>
@@ -368,12 +385,14 @@
     <button id="resetHistory">학습 기록 초기화</button>
     <div id="lastHanziInfo"></div>
     <button id="goToLastHanzi">마지막 학습 한자로 이동</button>
+    <button id="goToNextRipeHanzi" title="복습 모드 진입: 화살표 키로 복습 한자만 순회합니다.">복습 한자 순회</button>
     <hr style="border:none;border-top:1px solid rgba(214,40,40,0.2);margin:4px 0 0;">
     <button id="supportBtn">🍚 開發者에게 後援하기</button>
 
     <div id="qrOverlay">
         <div id="qrBox">
             <p>후원은 개발자에게 큰 힘이 됩니다!</p>
+            <p style="font-size:13px;font-weight:normal;margin:0 0 10px;">토스 송금 계좌 QR 코드</p>
             <img src="ShowMeTheMoneyQR.png" alt="후원 QR 코드">
             <button id="closeQr">닫기</button>
         </div>

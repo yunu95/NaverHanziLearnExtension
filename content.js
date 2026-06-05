@@ -28,6 +28,7 @@ let tradToSimpMap = Object.create(null);
 let simplifiedPinyinMap = Object.create(null);
 let simplifiedCharSet = new Set();
 let historyUpdatedForCurrentPage = false;
+let reviewMode = null;
 
 const normalizeEntry = (value) =>
     String(value ?? "")
@@ -153,12 +154,17 @@ const ensureHanzisLoaded = async () => {
 };
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName !== "sync" || !changes[STORAGE_KEY]) {
-        return;
+    if (areaName !== "sync") return;
+
+    if (changes[STORAGE_KEY]) {
+        setHanzis(changes[STORAGE_KEY].newValue);
+        console.log("[Hanzi Ext] Updated hanja list from storage:", hanzis);
     }
 
-    setHanzis(changes[STORAGE_KEY].newValue);
-    console.log("[Hanzi Ext] Updated hanja list from storage:", hanzis);
+    if ("reviewMode" in changes) {
+        reviewMode = changes.reviewMode.newValue || null;
+        renderPanel();
+    }
 });
 
 const getCurrentHanziFromLocation = () => {
@@ -267,6 +273,52 @@ const goToHanzi = (hanzi) => {
     window.location.assign(buildSearchUrl(target));
 };
 
+const loadReviewMode = () =>
+    new Promise((resolve) => {
+        chrome.storage.sync.get({ reviewMode: null }, (data) => {
+            reviewMode = data.reviewMode || null;
+            resolve(reviewMode);
+        });
+    });
+
+const BOUNDARY_TOAST_ID = "hanzi-ext-boundary-toast";
+
+const showBoundaryMessage = (message) => {
+    const existing = document.getElementById(BOUNDARY_TOAST_ID);
+    if (existing) existing.remove();
+
+    const toast = document.createElement("div");
+    toast.id = BOUNDARY_TOAST_ID;
+    toast.style.cssText = [
+        "position:fixed",
+        "top:50%",
+        "left:50%",
+        "transform:translate(-50%,-50%)",
+        "z-index:2147483647",
+        "background:#fff3cd",
+        "border:3px solid #d62828",
+        "border-radius:8px",
+        "padding:16px 28px",
+        "font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif",
+        "color:#7a1f1f",
+        "text-align:center",
+        "font-size:15px",
+        "font-weight:bold",
+        "box-shadow:0 4px 20px rgba(0,0,0,0.35)",
+        "transition:opacity 0.5s",
+        "opacity:1",
+        "pointer-events:none",
+        "line-height:1.5",
+    ].join(";");
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => { if (toast.parentNode) toast.remove(); }, 500);
+    }, 1800);
+};
+
 const navigateToOffset = async (offset) => {
     await ensureHanzisLoaded();
 
@@ -275,6 +327,33 @@ const navigateToOffset = async (offset) => {
         return;
     }
 
+    // Review mode: navigate only within the ripe list snapshot
+    if (reviewMode?.active && Array.isArray(reviewMode.list) && reviewMode.list.length > 0) {
+        const ripeList = reviewMode.list;
+        const currentHanzi = getCurrentHanzi();
+        const currentRipeIndex = ripeList.indexOf(currentHanzi);
+
+        if (currentRipeIndex === -1) {
+            // Not on a ripe hanzi — jump to start or end of ripe list
+            goToHanzi(offset > 0 ? ripeList[0] : ripeList[ripeList.length - 1]);
+            return;
+        }
+
+        const nextRipeIndex = currentRipeIndex + offset;
+        if (nextRipeIndex < 0) {
+            showBoundaryMessage("오늘 복습할 첫 한자입니다.");
+            return;
+        }
+        if (nextRipeIndex >= ripeList.length) {
+            showBoundaryMessage("오늘 복습할 마지막 한자입니다.");
+            return;
+        }
+
+        goToHanzi(ripeList[nextRipeIndex]);
+        return;
+    }
+
+    // Normal mode
     const currentHanzi = getCurrentHanzi();
     let currentIndex = hanziIndexMap.has(currentHanzi) ? hanziIndexMap.get(currentHanzi) : -1;
 
@@ -641,7 +720,14 @@ const renderPanel = () => {
         document.body.appendChild(panel);
     }
 
-    panel.innerHTML =
+    const reviewBadgeHtml = (() => {
+        if (!reviewMode?.active || !Array.isArray(reviewMode.list) || reviewMode.list.length === 0) return "";
+        const pos = reviewMode.list.indexOf(currentHanzi);
+        const posText = pos >= 0 ? `${pos + 1} / ${reviewMode.list.length}` : `- / ${reviewMode.list.length}`;
+        return `<div style="font-size:10px;background:#d62828;color:#fff;padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:0.04em;display:inline-block;">복습 모드 ${posText}</div>`;
+    })();
+
+    panel.innerHTML = reviewBadgeHtml +
         `<div style="font-size:38px;font-weight:bold;color:#d62828;line-height:1.1;margin-bottom:8px;">${currentHanzi || ""}</div>` +
         (sound ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">음</span> <strong>${sound}</strong></div>` : "") +
         (meaning ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">뜻</span> <strong>${meaning}</strong></div>` : "") +
@@ -768,10 +854,9 @@ const showArrowHint = () => {
     leftPanel.addEventListener("click", dismiss);
     rightPanel.addEventListener("click", dismiss);
 
-    document.body.appendChild(leftPanel);
-    document.body.appendChild(rightPanel);
+    document.documentElement.appendChild(leftPanel);
+    document.documentElement.appendChild(rightPanel);
 
-    setTimeout(dismiss, 5000);
 };
 
 // ── 획순보기 repositioning ──────────────────────────────────────────────────
@@ -1046,6 +1131,7 @@ new MutationObserver(() => {
 
 const start = async () => {
     await loadHanzis();
+    await loadReviewMode();
     loadSimplifiedVariantData();
 
     if (document.readyState === "loading") {

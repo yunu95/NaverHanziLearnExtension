@@ -2,6 +2,7 @@ const textarea = document.getElementById("hanziList");
 const saveHanziListButton = document.getElementById("saveHanziList");
 const resetHistoryButton = document.getElementById("resetHistory");
 const goToLastHanziButton = document.getElementById("goToLastHanzi");
+const goToNextRipeHanziButton = document.getElementById("goToNextRipeHanzi");
 const lastHanziInfo = document.getElementById("lastHanziInfo");
 const ripenessSummary = document.getElementById("ripenessSummary");
 const hanziGrid = document.getElementById("hanziGrid");
@@ -307,20 +308,31 @@ const getRipenessState = (entry, now) => {
     return { state: "ripening", color };
 };
 
+const getRipeHanzis = (hanzis, history) => {
+    const now = Date.now();
+    return hanzis.filter((h) => getRipenessState(history[h], now).state === "needReview");
+};
+
+const gridScrollMap = {};
+
+hanziGrid.addEventListener("scroll", () => {
+    if (activePresetId) gridScrollMap[activePresetId] = hanziGrid.scrollTop;
+});
+
 const renderHanziGrid = () => {
-    chrome.storage.sync.get({ hanzis: [], hanziHistory: {} }, (data) => {
-        const hanzis = Array.isArray(data.hanzis) ? data.hanzis : [];
+    chrome.storage.sync.get({ hanziHistory: {} }, (data) => {
+        const hanzis = parseHanziList(textarea.value);
         const history = data.hanziHistory[activePresetId] || {};
         const now = Date.now();
-        
+
         const counts = { never: 0, needReview: 0, ripening: 0, mastered: 0 };
-        
+
         hanziGrid.innerHTML = "";
         hanzis.forEach((hanzi) => {
             const entry = history[hanzi];
             const { state, color } = getRipenessState(entry, now);
             counts[state]++;
-            
+
             const cell = document.createElement("span");
             cell.className = "hanzi-cell";
             cell.textContent = hanzi;
@@ -331,8 +343,9 @@ const renderHanziGrid = () => {
             if (entry?.lastViewed != null) cell.dataset.lastViewed = entry.lastViewed;
             hanziGrid.appendChild(cell);
         });
-        
-        ripenessSummary.textContent = `회색: 미학습 | 흰색→빨강: 숙성중 | 빨강: 복습 필요 | 금색: 완전 숙달`;
+
+        ripenessSummary.textContent = "";
+        hanziGrid.scrollTop = gridScrollMap[activePresetId] || 0;
     });
 };
 
@@ -347,13 +360,22 @@ hanziGrid.addEventListener("click", (e) => {
 
 resetHistoryButton.addEventListener("click", () => {
     if (!confirm("현재 프리셋의 학습 기록을 모두 초기화하시겠습니까?")) return;
-    chrome.storage.sync.get({ hanziHistory: {} }, (data) => {
+    chrome.storage.sync.get({ hanziHistory: {}, ripeQueue: {}, ripeQueueTotal: {}, reviewMode: null }, (data) => {
         const history = { ...data.hanziHistory };
+        const ripeQueue = { ...data.ripeQueue };
+        const ripeQueueTotal = { ...data.ripeQueueTotal };
         if (activePresetId) {
             delete history[activePresetId];
+            delete ripeQueue[activePresetId];
+            delete ripeQueueTotal[activePresetId];
         }
-        chrome.storage.sync.set({ hanziHistory: history }, () => {
+        const updates = { hanziHistory: history, ripeQueue, ripeQueueTotal };
+        if (data.reviewMode?.active && data.reviewMode?.presetId === activePresetId) {
+            updates.reviewMode = null;
+        }
+        chrome.storage.sync.set(updates, () => {
             renderHanziGrid();
+            renderRipeButton();
         });
     });
 });
@@ -391,6 +413,23 @@ const renderLastHanzi = () => {
             lastHanziInfo.textContent = "아직 방문한 한자가 없습니다.";
         }
     });
+    renderRipeButton();
+};
+
+const renderRipeButton = () => {
+    chrome.storage.sync.get({ hanziHistory: {}, reviewMode: null }, (data) => {
+        const hanzis = parseHanziList(textarea.value);
+        const history = data.hanziHistory[activePresetId] || {};
+        const ripeList = getRipeHanzis(hanzis, history);
+        const isReviewActive = data.reviewMode?.active && data.reviewMode?.presetId === activePresetId;
+        if (ripeList.length === 0) {
+            goToNextRipeHanziButton.textContent = "복습 한자 순회";
+        } else if (isReviewActive) {
+            goToNextRipeHanziButton.textContent = `복습 모드 재시작 (${ripeList.length}개)`;
+        } else {
+            goToNextRipeHanziButton.textContent = `복습 모드 시작 (${ripeList.length}개)`;
+        }
+    });
 };
 
 goToLastHanziButton.addEventListener("click", () => {
@@ -402,6 +441,27 @@ goToLastHanziButton.addEventListener("click", () => {
             return;
         }
         chrome.tabs.create({ url });
+    });
+});
+
+goToNextRipeHanziButton.addEventListener("click", () => {
+    chrome.storage.sync.get({ hanziHistory: {} }, (data) => {
+        const hanzis = parseHanziList(textarea.value);
+        const history = data.hanziHistory[activePresetId] || {};
+        const ripeList = getRipeHanzis(hanzis, history);
+
+        if (ripeList.length === 0) {
+            alert("복습이 필요한 한자가 없습니다.");
+            return;
+        }
+
+        const reviewMode = { active: true, list: ripeList, presetId: activePresetId };
+        chrome.storage.sync.set({ reviewMode }, () => {
+            renderRipeButton();
+            chrome.tabs.create({
+                url: `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(ripeList[0])}`,
+            });
+        });
     });
 });
 
