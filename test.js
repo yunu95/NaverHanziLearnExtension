@@ -317,17 +317,17 @@ test("invalid stored activePresetId falls back gracefully", () => {
 
 // ── spaced repetition tests ──────────────────────────────────────────────────
 test("REVIEW_INTERVALS_MS has correct values", () => {
-    const REVIEW_INTERVALS_MS = [86400000, 259200000, 604800000, 1382400000, 3024000000];
+    const REVIEW_INTERVALS_MS = [86400000, 172800000, 345600000, 777600000, 1641600000];
     eq(REVIEW_INTERVALS_MS.length, 5, "should have 5 intervals");
-    eq(REVIEW_INTERVALS_MS[0], 86400000, "1st interval: 1 day");
-    eq(REVIEW_INTERVALS_MS[1], 259200000, "2nd interval: 3 days");
-    eq(REVIEW_INTERVALS_MS[2], 604800000, "3rd interval: 7 days");
-    eq(REVIEW_INTERVALS_MS[3], 1382400000, "4th interval: 16 days");
-    eq(REVIEW_INTERVALS_MS[4], 3024000000, "5th interval: 35 days");
+    eq(REVIEW_INTERVALS_MS[0], 86400000,   "1st delta: 1 day");
+    eq(REVIEW_INTERVALS_MS[1], 172800000,  "2nd delta: 2 days");
+    eq(REVIEW_INTERVALS_MS[2], 345600000,  "3rd delta: 4 days");
+    eq(REVIEW_INTERVALS_MS[3], 777600000,  "4th delta: 9 days");
+    eq(REVIEW_INTERVALS_MS[4], 1641600000, "5th delta: 19 days");
 });
 
 test("ripeness classification", () => {
-    const REVIEW_INTERVALS_MS = [86400000, 259200000, 604800000, 1382400000, 3024000000];
+    const REVIEW_INTERVALS_MS = [86400000, 172800000, 345600000, 777600000, 1641600000];
     const now = Date.now();
     
     const interpolateColor = (ratio) => {
@@ -373,40 +373,59 @@ test("ripeness classification", () => {
 });
 
 test("history update increments views and computes nextReview", () => {
-    const REVIEW_INTERVALS_MS = [86400000, 259200000, 604800000, 1382400000, 3024000000];
-    
+    const REVIEW_INTERVALS_MS = [86400000, 172800000, 345600000, 777600000, 1641600000];
+    const DAY = 86400000;
+
+    const getNext3AM = (afterTimestamp) => {
+        const d = new Date(afterTimestamp);
+        const candidate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 3, 0, 0, 0);
+        if (candidate.getTime() <= afterTimestamp) candidate.setDate(candidate.getDate() + 1);
+        return candidate.getTime();
+    };
+
     const updateHistory = (entry, now) => {
         const newEntry = { ...entry };
+        const isFirstView = newEntry.views === 0;
+        const base = isFirstView ? now : newEntry.nextReview;
         newEntry.views += 1;
         newEntry.lastViewed = now;
         if (newEntry.views <= 5) {
-            newEntry.nextReview = newEntry.lastViewed + REVIEW_INTERVALS_MS[newEntry.views - 1];
+            newEntry.nextReview = getNext3AM(base + REVIEW_INTERVALS_MS[newEntry.views - 1] - DAY);
         } else {
             newEntry.nextReview = null;
         }
         return newEntry;
     };
-    
-    const now = Date.now();
+
+    // Fix now at 3 AM so getNext3AM results are deterministic (3 AM + N days = 3 AM N days later)
+    const t = new Date();
+    t.setHours(3, 0, 0, 0);
+    const T = t.getTime(); // 3 AM today
+
     let entry = { views: 0, lastViewed: null, nextReview: null };
-    
-    entry = updateHistory(entry, now);
+
+    entry = updateHistory(entry, T);
     eq(entry.views, 1, "after 1st view, views=1");
-    eq(entry.nextReview, now + 86400000, "after 1st view, nextReview = now + 1 day");
-    
-    entry = updateHistory(entry, now);
+    eq(entry.nextReview, T + DAY, "after 1st view, nextReview = 3 AM tomorrow");
+
+    entry = updateHistory(entry, T + DAY);
     eq(entry.views, 2, "after 2nd view, views=2");
-    eq(entry.nextReview, now + 259200000, "after 2nd view, nextReview = now + 3 days");
-    
-    entry = updateHistory(entry, now);
-    entry = updateHistory(entry, now);
-    entry = updateHistory(entry, now);
+    eq(entry.nextReview, T + 3 * DAY, "after 2nd view, nextReview = 3 AM in 3 days (cumulative)");
+
+    entry = updateHistory(entry, T + 3 * DAY);
+    entry = updateHistory(entry, T + 7 * DAY);
+    entry = updateHistory(entry, T + 16 * DAY);
     eq(entry.views, 5, "after 5th view, views=5");
-    eq(entry.nextReview, now + 3024000000, "after 5th view, nextReview = now + 35 days");
-    
-    entry = updateHistory(entry, now);
+    eq(entry.nextReview, T + 35 * DAY, "after 5th view, nextReview = 3 AM in 35 days (cumulative)");
+
+    entry = updateHistory(entry, T + 35 * DAY);
     eq(entry.views, 6, "after 6th view, views=6");
     eq(entry.nextReview, null, "after 6th view, nextReview should be null (mastered)");
+
+    // Late review: schedule advances from the missed due date, not from when you actually reviewed
+    const lateEntry = { views: 1, lastViewed: T, nextReview: T + DAY };
+    const lateReviewed = updateHistory(lateEntry, T + 5 * DAY); // 4 days late
+    eq(lateReviewed.nextReview, T + 3 * DAY, "late review bases next schedule on due date, not review date");
 });
 
 // ── summary ──────────────────────────────────────────────────────────────────

@@ -698,13 +698,20 @@ const renderPanel = () => {
                 entry.views += 1;
                 entry.lastViewed = now;
                 if (entry.views <= 5) {
-                    entry.nextReview = getNext3AM(base + REVIEW_INTERVALS_MS[entry.views - 1]);
+                    entry.nextReview = getNext3AM(base + REVIEW_INTERVALS_MS[entry.views - 1] - 86400000);
                 } else {
                     entry.nextReview = null;
                 }
                 history[presetId][currentHanzi] = entry;
+
+                if (isFirstView) {
+                    const prev = parseInt(sessionStorage.getItem("hanzi-ext-new-count") || "0", 10);
+                    sessionStorage.setItem("hanzi-ext-new-count", String(prev + 1));
+                    const el = document.getElementById("hanzi-ext-new-count-display");
+                    if (el) el.textContent = `새 한자 ${prev + 1}자!`;
+                }
             }
-            
+
             chrome.storage.sync.set({ lastHanziMap: map, hanziHistory: history });
         });
     }
@@ -730,11 +737,17 @@ const renderPanel = () => {
         return `<div style="font-size:10px;background:#d62828;color:#fff;padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:0.04em;display:inline-block;">복습 모드 ${pos + 1} / ${reviewMode.list.length}</div>`;
     })();
 
+    const newCount = parseInt(sessionStorage.getItem("hanzi-ext-new-count") || "0", 10);
+    const newCountHtml = newCount > 0
+        ? `<div id="hanzi-ext-new-count-display" style="font-size:11px;color:#111;margin-top:6px;border-top:1px solid rgba(214,40,40,0.18);padding-top:6px;">새 한자 ${newCount}자!</div>`
+        : `<div id="hanzi-ext-new-count-display"></div>`;
+
     panel.innerHTML = reviewBadgeHtml +
         `<div style="font-size:38px;font-weight:bold;color:#d62828;line-height:1.1;margin-bottom:8px;">${currentHanzi || ""}</div>` +
         (sound ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">음</span> <strong>${sound}</strong></div>` : "") +
-        (meaning ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#999;">뜻</span> <strong>${meaning}</strong></div>` : "") +
-        (simplifiedVariants ? `<div style="font-size:15px;"><span style="font-size:11px;color:#999;">간체</span> <strong>${simplifiedVariants}</strong></div>` : "");
+        (meaning ? `<div style="font-size:15px;margin-bottom:4px;"><span style="font-size:11px;color:#111;">뜻</span> <strong>${meaning}</strong></div>` : "") +
+        (simplifiedVariants ? `<div style="font-size:15px;"><span style="font-size:11px;color:#111;">간체</span> <strong>${simplifiedVariants}</strong></div>` : "") +
+        newCountHtml;
 
     positionPanel();
 };
@@ -833,11 +846,12 @@ const recordArrowKeyUsage = () => {
 const showArrowHint = () => {
     const data = getArrowHintData();
     const lastDate = data.lastUsedDate;
+    const today = new Date().toISOString().slice(0, 10);
     const daysSinceLast = lastDate
         ? Math.floor((Date.now() - new Date(lastDate).getTime()) / 86400000)
         : Infinity;
-    // Hide after 3 days of use, unless 7+ days have passed since last use
-    if (daysSinceLast < 7 && (data.usageDays || 0) >= 3) return;
+    if (lastDate === today) return; // already used arrow keys today
+    if (daysSinceLast < 7 && (data.usageDays || 0) >= 3) return; // graduated
     const hint = document.createElement("div");
     hint.id = ARROW_HINT_ID;
     hint.style.cssText = [
