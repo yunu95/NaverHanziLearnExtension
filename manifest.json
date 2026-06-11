@@ -4,8 +4,7 @@
     "version": "1.20",
     "description": "네이버 한자사전을 통해 자원과 획순을 한 눈에 보면서 전략적인 주기로 한자를 공부하세요.",
     "permissions": [
-        "storage",
-        "tabs"
+        "storage"
     ],
     "background": {
         "service_worker": "background.js"
